@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #6a11cb, #cfd1d4e9);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .background-ball {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff00cc, #3030ee);
+            filter: blur(60px);
+            pointer-events: none;
+            mix-blend-mode: screen;
+            z-index: 0;
+            transition: transform 0.05s ease-out;
+        }
+
+        .container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            z-index: 1;
+            backdrop-filter: blur(12px);
+        }
+
+        .signup_form h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            background: linear-gradient(90deg, #ff00cc, #3333ff, #00ff99);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: gradientText 2s infinite alternate;
+        }
+
+        @keyframes gradientText {
+            0% {
+                background-position: 0%;
+            }
+            100% {
+                background-position: 100%;
+            }
+        }
+
+        .input_box {
+            margin-bottom: 15px;
+        }
+
+        .input_box label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input_box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .signup_button {
+            width: 100%;
+            padding: 10px;
+            background: #6900cc;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            text-align: center;
+            z-index: 9999;
+            display: none;
+        }
+
+        .error {
+            background-color: rgba(255, 0, 0, 0.9);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<!-- background animation -->
+<div class="background-ball" id="colorBall"></div>
+
+<!-- signup form -->
+<div class="container">
+    <div class="signup_form" id="signupSection">
+        <form onsubmit="handleSignup(event)">
+            <h3>Email Signup</h3>
+
+            <div class="input_box">
+                <label for="name">Full Name</label>
+                <input id="name" name="name" placeholder="Your full name" required type="text"/>
+            </div>
+
+            <div class="input_box">
+                <label for="email">Email Address</label>
+                <input id="email" name="email" placeholder="example@mutah.edu.jo" required type="email"/>
+            </div>
+
+            <div class="input_box">
+                <label for="password">Password</label>
+                <input id="password" name="password" placeholder="Enter your password" required type="password"/>
+            </div>
+
+            <button class="signup_button" type="submit">Sign Up</button>
+        </form>
+    </div>
+</div>
+
+<!-- error message -->
+<div class="message error" id="errorMessage"></div>
+
+<script>
+    // الكرة الخلفية تتبع المؤشر
+    const ball = document.getElementById("colorBall");
+    document.addEventListener("mousemove", (e) => {
+        ball.style.transform = `translate(${e.clientX - 100}px, ${e.clientY - 100}px)`;
+    });
+
+    // إظهار رسالة خطأ
+    function showError(message) {
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.textContent = message;
+        errorDiv.style.display = "block";
+        setTimeout(() => {
+            errorDiv.style.display = "none";
+        }, 3000);
+    }
+
+    // معالجة التسجيل
+    function handleSignup(event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        const mutahRegex = /^[0-9]+@mutah\.edu\.jo$/;
+
+        if (!mutahRegex.test(email)) {
+            showError("❌ Invalid email format. Please use your university email: example@mutah.edu.jo");
+            return;
+        }
+
+        // إرسال الطلب
+        fetch("http://localhost:8080/email/request", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                password: password,
+            }),
+        })
+            .then(async (response) => {
+                const contentType = response.headers.get("content-type");
+                const responseBody = contentType && contentType.includes("application/json")
+                    ? await response.json()
+                    : await response.text();
+
+                if (!response.ok) {
+                    throw new Error(responseBody.message || responseBody || "❌ Failed to send verification code.");
+                }
+
+                // ✅ حفظ البيانات محليًا
+                localStorage.setItem("signupEmail", email);
+                localStorage.setItem("signupname", name);
+                localStorage.setItem("signupPassword", password);
+
+                // ✅ الانتقال إلى صفحة التحقق
+                window.location.href = "send code.html";
+            })
+            .catch((error) => {
+                console.error("Actual error:", error);
+                showError("🚫 " + error.message);
+            });
+    }
+</script>
+</body>
+</html>

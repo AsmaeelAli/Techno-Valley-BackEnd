@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: Techno-valley
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+
+
+  datasource:
+    url: "${DATABASE_URL:jdbc:postgresql://localhost:5600/Techno-valley-DB}"
+    username: "${DATABASE_USERNAME:AsmaeelAli}"
+    password: "${DATABASE_PASSWORD:12341234}"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+security:
+  expInHours: 24
+  key:
+    privateKey: "${PRIVATE_KEY:classpath:keys/private_key.pem}"
+    publicKey: "${PUBLIC_KEY:classpath:keys/public_key.pem}"
+
+# application.yaml
+storage:
+  location: /var/www/html/projctEdit4/uploads
+
+
+sendgrid:
+  api:
+    key: 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
+  sender:
+    email: "TECHNO-VALLEY-PROVIDER@outlook.com"
+
+server:
+  port: 8080
+  address: 0.0.0.0
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-exception: false
+    whitelabel:
+      enabled: false
+
+
+# Swagger
+swagger:
+  service:
+    version: "${application.version:dev}"
+    title: "HotDog"
+    description: ""
+    termsPath: ""
+    email: ""
+    url: ""
+    name: "AsmaeelAli"
+    licenceType: ""
+    licencePath: ""
+
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

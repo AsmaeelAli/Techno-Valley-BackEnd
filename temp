@@ -1,0 +1,128 @@
+{
+  "content": "Hello World",
+  "hashtag": "#kotlin"
+}
+
+{   "content": "Hellooooo",   "hashtag": "fuckYou" }
+
+
+{
+  "email": "120212211025@mutah.edu.jo",
+  "password": "12345"
+}
+
+
+{
+  "experience": "java kotlin javascript koooos fuuuuuuccccck html cssssssss"
+}
+
+
+
+eyJhbGciOiJSUzUxMiJ9.eyJqdGkiOiIxMjAyMTIyMTEwMjUiLCJzdWIiOiJBc21hZWVsQWxpIiwicm9sZSI6IlVTRVIiLCJlbWFpbCI6IjEyMDIxMjIxMTAyNUBtdXRhaC5lZHUuam8iLCJleHAiOjE3NDU2MTczNTIsImlhdCI6MTc0NTUzMDk1Mn0.H4vpox5QfPp82WeenRTtWxQ6w16776Gl0J8NVFz70MGYkKkkfKSRlzcMgD3g4ULG57zag9CuiruHzvxZ2Ug6jkOz1zXiBq8s6KY7xFt3Xk85Ow4OvpBwPmYbUnrnItPD-yDxIfNP2fOMWZRvd2EYk4HwCAsXQbQQ2lnzet7BIi94WuStyQmDe0MSStjwcNy2igXjYatw8sjdOIeQbTeK405lLMNIa0wPaOlccdyVz2Sz34LD2k7AcB7q4hr7q10AuY3mS2yHdftIj56etGi5ozhqqfMyPWKVb6TxR_s_Msrb60ugdom4osz2ypqwGOKpOf7bXVVDNn2OgCP7aYJw3l28HVSdfxV2JyEvtVUVaEb_UvxwLnDoJ9xM5Vbt8WEzzeR0NR2DCtf3sHUkfeO86VQZ9Js0xO3JRDySaYURwxVjkdIX_Bs-_nWaeKtMI8Nny8fI6OtrYcCgXx4IuVKkdh2LnggDKsF12yRCAlvFThcRwd2jTqGtxHuWtCzlBKvcDxVDWOQofPnECnphmWBRSJPA-1dBVhXAf7vQQcu3xmhxw32unw0ACVjlrpcUVcGIzSGNS5dJxiE1Kw6KGRg0LjvxYSsH3uuzByjb9LSBC-OWNYnsnLjktZLJcNGiQGA3AAHHSD6AuHzB_epUdngNDld_tPP7XohICcw4JYkVaNY
+
+
+ عندما يكون الطلب من المستخدم غير صحيح أو ناقص، وغالبًا يكون الخطأ من جهة المستخدم نفسه (client).
+if (email.isBlank()) {
+    throw RestExceptions.BadRequest("Email must not be empty")
+}
+
+
+
+عندما يطلب المستخدم شيئًا غير موجود في قاعدة البيانات أو في النظام.
+val post = postRepository.findByIdOrNull(postId)
+    ?: throw RestExceptions.NotFound("Post with id=$postId not found")
+
+
+
+
+عندما يحاول المستخدم الوصول لشيء بدون تسجيل الدخول (أي بدون JWT token مثلاً).
+if (!jwtUtil.isTokenValid(token)) {
+    throw RestExceptions.Unauthorized("Access Denied: Incomplete User Info")
+}
+
+
+
+
+
+لما يكون المستخدم مسجل ومصادق عليه، لكن لا يملك صلاحية للقيام بعمل معين.
+if (post.ownerId != currentUser.id) {
+    throw RestExceptions.Forbidden("You are not allowed to delete this post")
+}
+
+
+
+
+
+
+عندما يحدث تضارب منطقي في البيانات – الطلب غير خاطئ من الناحية التقنية، لكن لا يمكن تنفيذه بسبب حالة النظام.
+if (userRepository.existsByEmail(email)) {
+    throw RestExceptions.Conflict("An account with this email already exists")
+}
+
+
+if (jwtToken.isNullOrEmpty()) {
+            val response = res as HttpServletResponse
+            response.status = HttpStatus.UNAUTHORIZED.value()
+            response.contentType = "application/json"
+
+            val errorBody = """
+        {
+            "code": 401,
+            "message": "Access Denied: Incomplete User Info",
+            "details": ""
+        }
+    """.trimIndent()
+
+            response.writer.write(errorBody)
+            return // أوقف تنفيذ السلسلة
+        }
+
+        *************************************************************
+
+        # Redirect HTTP to HTTPS
+        server {
+            listen 80;
+            listen [::]:80;
+            server_name techno-valley.info www.techno-valley.info;
+
+            return 301 https://$host$request_uri;
+        }
+
+        # HTTPS configuration
+        server {
+            listen 443 ssl;
+            listen [::]:443 ssl;
+            server_name techno-valley.info www.techno-valley.info;
+
+            # SSL certificate from Let's Encrypt
+            ssl_certificate /etc/letsencrypt/live/techno-valley.info/fullchain.pem;
+            ssl_certificate_key /etc/letsencrypt/live/techno-valley.info/privkey.pem;
+
+            # Root directory for frontend (Next.js build or static files)
+            root /var/www/html/projctEdit4;
+            index index.html index.htm;
+
+            # Serve static frontend
+            location / {
+                try_files $uri $uri/ =404;
+            }
+
+            # Proxy requests to backend API
+            location /api/ {
+                proxy_pass http://127.0.0.1:8080;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+            }
+
+            # Optional: prevent access to hidden files like .htaccess
+            location ~ /\. {
+                deny all;
+            }
+        }
+
+عبد الزهري عمار تريلات عبد الزلف اسماعيل بزاق ابراهيم كفرجي رعد مرجة
+
+sudo java -jar demo-0.0.1-SNAPSHOT.jar

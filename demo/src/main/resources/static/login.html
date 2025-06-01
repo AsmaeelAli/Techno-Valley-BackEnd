@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #000000, #111111);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 30px 25px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+    }
+
+    .login_form h3 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .input_box {
+      margin-bottom: 18px;
+    }
+
+    .input_box label {
+      display: block;
+      margin-bottom: 6px;
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .input_box input {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(to right, #f0f0f0, #ccc);
+      color: #000;
+    }
+
+    .password_title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .password_title a {
+      font-size: 12px;
+      text-decoration: none;
+      color: #66aaff;
+    }
+
+    .login_button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #8e2de2, #4a00e0);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login_button:hover {
+      transform: scale(1.04);
+    }
+
+    .sign_up {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    .sign_up a {
+      color: #66aaff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .success {
+      background-color: #00c853;
+      color: white;
+    }
+
+    .error {
+      background-color: #d32f2f;
+      color: white;
+    }
+
+    /* Desktop enhancements */
+    @media (min-width: 768px) {
+      .container {
+        padding: 40px 30px;
+      }
+
+      .login_form h3 {
+        font-size: 2.4rem;
+      }
+
+      .input_box input {
+        font-size: 16px;
+      }
+
+      .login_button {
+        font-size: 17px;
+      }
+
+      .sign_up {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="login_form" id="loginSection">
+    <form onsubmit="handleSubmit(event)">
+      <h3>Login</h3>
+
+      <div class="input_box">
+        <label for="email">Email</label>
+        <input id="email" placeholder="example@mutah.edu.jo" required type="email"/>
+      </div>
+
+      <div class="input_box">
+        <div class="password_title">
+          <label for="password">Password</label>
+          <a href="#">Forgot Password?</a>
+        </div>
+        <input id="password" placeholder="Enter your password" required type="password"/>
+      </div>
+
+      <button class="login_button" type="submit">Log In</button>
+      <p class="sign_up">Don't have an account? <a href="sign_up.html">Sign up</a></p>
+    </form>
+
+    <div class="message" id="messageBox"></div>
+  </div>
+</div>
+
+<script>
+  function handleSubmit(event) {
+    event.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    fetch("/api/auth/login", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ email, password })
+    })
+    .then(async response => {
+      const text = await response.text();
+      const data = JSON.parse(text);
+      if (!response.ok) throw new Error(data.message);
+      showMessage(data.message, "success");
+      setTimeout(() => window.location.href = "index.html", 1500);
+    })
+    .catch(error => {
+      showMessage(error.message, "error");
+    });
+  }
+
+  function showMessage(text, type) {
+    const box = document.getElementById("messageBox");
+    box.textContent = text;
+    box.className = `message ${type}`;
+    box.style.display = "block";
+    setTimeout(() => {
+      box.style.display = "none";
+    }, 3000);
+  }
+</script>
+</body>
+</html>
