@@ -59,7 +59,7 @@ class PostController(
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/all")
-    fun getAllPosts(): List<PostResponseDto> = getAllPostsService()
+    fun getAllPosts(auth: UsersAuthentication): List<PostResponseDto> = getAllPostsService(auth)
 
 
 

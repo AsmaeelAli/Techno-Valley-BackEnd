@@ -7,6 +7,9 @@ data class PostResponseDto (
     var username: String,
     var university: String,
     var content: String,
+    var hashtag: String,
     var fileUrl: String?,
     var imageUrl: String?,
-    )
+    var isLiked: Boolean,  // إضافة حالة الإعجاب
+    var isSaved: Boolean   // إضافة حالة الحفظ
+)

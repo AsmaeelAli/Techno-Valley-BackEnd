@@ -9,7 +9,7 @@ import java.util.UUID
 @Repository
 interface LikesRepo: JpaRepository<LikesEntity, ID>{
 
-    fun findAllByUserId(userId: ID): List<LikesEntity>
+    fun existsByUserIdAndPostIdAndEnableTrue(userId: ID , postId: UUID): Boolean
 
     // البحث عن الإعجابات بناءً على userId
     fun findByUserIdAndEnableTrue(userId: ID): List<LikesEntity>
