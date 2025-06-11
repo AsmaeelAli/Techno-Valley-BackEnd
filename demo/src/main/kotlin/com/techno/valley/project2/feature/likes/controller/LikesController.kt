@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
@@ -20,5 +21,8 @@ class LikesController(
 ) {
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/toggle")
-    fun newLike(auth: UsersAuthentication, postID: UUID): LikesEntity = likesService(auth, postID)
+    fun newLike(
+        auth: UsersAuthentication,
+        @RequestParam postId: UUID,
+    ): LikesEntity = likesService(auth, postId)
 }

@@ -95,8 +95,8 @@ EXECUTE FUNCTION update_tag_vector();
 CREATE TABLE favorites
 (
     id         BIGINT,
-    user_id    BIGINT NOT NULL,                                                  -- معرّف المستخدم
-    post_id    UUID NOT NULL,                                                  -- معرّف المنشور الذي تم حفظه
+    user_id    BIGINT NOT NULL,                                               -- معرّف المستخدم
+    post_id    UUID   NOT NULL,                                               -- معرّف المنشور الذي تم حفظه
     enable     BOOLEAN   DEFAULT TRUE,                                        -- حالة الحفظ (مفعل أم لا)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,                           -- تاريخ ووقت الحفظ
     CONSTRAINT favorites_pk PRIMARY KEY (id),
@@ -107,11 +107,21 @@ CREATE TABLE favorites
 CREATE TABLE likes
 (
     id         BIGINT,
-    user_id    BIGINT NOT NULL,                                                  -- معرّف المستخدم
-    post_id    UUID NOT NULL,                                                  -- معرّف المنشور الذي تم الإعجاب به
+    user_id    BIGINT NOT NULL,                                               -- معرّف المستخدم
+    post_id    UUID   NOT NULL,                                               -- معرّف المنشور الذي تم الإعجاب به
     enable     BOOLEAN   DEFAULT TRUE,                                        -- حالة الإعجاب (مفعل أم لا)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,                           -- تاريخ ووقت الإعجاب
     CONSTRAINT likes_pk PRIMARY KEY (id),
     CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users_entity (id), -- ربطه بجدول المستخدمين
     CONSTRAINT fk_post_id FOREIGN KEY (post_id) REFERENCES posts_entity (id)  -- ربطه بجدول المنشورات
+);
+
+CREATE TABLE user_profile_pic
+(
+    id        BIGINT,                           -- معرف فريد لكل صورة
+    user_id   BIGINT       NOT NULL,            -- معرف المستخدم (يمكن ربطه بجدول المستخدمين)
+    image_url VARCHAR(255) NOT NULL,            -- رابط الصورة (مكان تخزين الصورة)
+
+    CONSTRAINT user_profile_pic_pk PRIMARY KEY (id),
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users_entity (id)
 );

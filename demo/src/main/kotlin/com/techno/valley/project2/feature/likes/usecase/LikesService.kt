@@ -13,6 +13,7 @@ class LikesService(
 ) {
 
     operator fun invoke(auth: UsersAuthentication, postId: UUID): LikesEntity {
+
         val existingLike = checkIfLikeExists(auth.id, postId)
 
         return if (existingLike != null) {

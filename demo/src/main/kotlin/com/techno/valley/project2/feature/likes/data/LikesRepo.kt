@@ -15,5 +15,7 @@ interface LikesRepo: JpaRepository<LikesEntity, ID>{
     fun findByUserIdAndEnableTrue(userId: ID): List<LikesEntity>
 
     // البحث عن إعجاب محدد بناءً على userId و postId
-    fun findByUserIdAndPostIdAndEnableTrue(userId: ID, postId: UUID): LikesEntity?
+    fun findByUserIdAndPostId(userId: ID, postId: UUID): LikesEntity?
+
+    fun countByPostIdAndEnableTrue(postId: UUID): Int
 }

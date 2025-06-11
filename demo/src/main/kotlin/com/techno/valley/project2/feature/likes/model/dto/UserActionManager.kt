@@ -28,7 +28,7 @@ class UserActionManager {
         val updatedUserAction = userAction?.let {
             when (actionType) {
                 "like" -> it.copy(like = it.like + 1)
-                "favorite" -> it.copy(save = it.save + 1)
+                "save" -> it.copy(save = it.save + 1)
                 else -> it
             }
         } ?: UserAction(1, 0, currentDate.plusDays(2))

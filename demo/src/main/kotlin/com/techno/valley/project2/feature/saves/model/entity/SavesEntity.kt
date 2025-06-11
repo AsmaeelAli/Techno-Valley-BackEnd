@@ -7,7 +7,7 @@ import jakarta.persistence.Table
 import java.time.LocalDateTime
 import java.util.UUID
 
-@Table(name = "likes")
+@Table(name = "favorites")
 @Entity
 data class SavesEntity(
     @Id

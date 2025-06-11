@@ -1,6 +1,7 @@
 package com.techno.valley.project2.feature.post.usecase
 
 import com.techno.valley.project2.feature.hashtags.data.PostHashtagRepo
+import com.techno.valley.project2.feature.likes.data.LikesRepo
 import com.techno.valley.project2.feature.post.model.dto.PostResponseDto
 import com.techno.valley.project2.feature.post.model.entity.PostEntity
 import com.techno.valley.project2.feature.users.data.UsersRepo
@@ -12,6 +13,7 @@ class PostDtoMapper(
     private val userRepository: UsersRepo,
     private val universityResolver: UniversityResolver,
     private val hashtagRepo: PostHashtagRepo,
+    private val likesRepo: LikesRepo,
 ) {
     operator fun invoke(post: PostEntity, isLiked: Boolean, isSaved: Boolean): PostResponseDto {
         val user = userRepository.findById(post.userId).orElseThrow {
@@ -21,8 +23,10 @@ class PostDtoMapper(
 
         val postHashtag = hashtagRepo.findByPostId(post.id)
 
+        val counter = likesRepo.countByPostIdAndEnableTrue(post.id)
+
         return PostResponseDto(
-            postId = post.id,
+            id = post.id,
             username = user.name,
             university = universityName,
             content = post.content,
@@ -31,6 +35,7 @@ class PostDtoMapper(
             imageUrl = post.imageUrl,
             isLiked = isLiked,
             isSaved = isSaved,
+            numperOfLikes = counter,
         )
     }
 }

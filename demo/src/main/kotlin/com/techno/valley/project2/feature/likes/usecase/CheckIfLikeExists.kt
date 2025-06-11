@@ -11,6 +11,6 @@ class CheckIfLikeExists(
     private val likesRepo: LikesRepo,
 ) {
     operator fun invoke(userId: ID, postId: UUID): LikesEntity? {
-        return likesRepo.findByUserIdAndPostIdAndEnableTrue(userId, postId)
+        return likesRepo.findByUserIdAndPostId(userId, postId)
     }
 }
