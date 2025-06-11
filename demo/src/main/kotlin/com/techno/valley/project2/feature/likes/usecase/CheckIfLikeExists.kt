@@ -4,7 +4,7 @@ import com.techno.valley.project2.feature.likes.data.LikesRepo
 import com.techno.valley.project2.feature.likes.model.entity.LikesEntity
 import com.techno.valley.project2.utily.ID
 import org.springframework.stereotype.Component
-import java.util.UUID
+import java.util.*
 
 @Component
 class CheckIfLikeExists(

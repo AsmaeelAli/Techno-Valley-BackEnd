@@ -15,7 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.GenericFilterBean
-import java.util.Date
+import java.util.*
 
 @Component
 @Priority(0)
@@ -39,7 +39,7 @@ class UsersBasicFilter(
             path.startsWith("/swagger-resources") ||
             path.startsWith("/api/auth/login") ||
             path.startsWith("/api/email/request") ||
-            path.startsWith("/api/email/verify")||
+            path.startsWith("/api/email/verify") ||
             path.startsWith("/api/email/resend")
         ) {
             filterChain.doFilter(request, response)

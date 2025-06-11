@@ -118,9 +118,9 @@ CREATE TABLE likes
 
 CREATE TABLE user_profile_pic
 (
-    id        BIGINT,                           -- معرف فريد لكل صورة
-    user_id   BIGINT       NOT NULL,            -- معرف المستخدم (يمكن ربطه بجدول المستخدمين)
-    image_url VARCHAR(255) NOT NULL,            -- رابط الصورة (مكان تخزين الصورة)
+    id        BIGINT,                -- معرف فريد لكل صورة
+    user_id   BIGINT       NOT NULL, -- معرف المستخدم (يمكن ربطه بجدول المستخدمين)
+    image_url VARCHAR(255) NOT NULL, -- رابط الصورة (مكان تخزين الصورة)
 
     CONSTRAINT user_profile_pic_pk PRIMARY KEY (id),
     CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users_entity (id)

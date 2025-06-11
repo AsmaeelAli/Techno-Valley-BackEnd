@@ -1,8 +1,8 @@
 package com.techno.valley.project2.feature.post.model.dto
 
-import java.util.UUID
+import java.util.*
 
-data class PostResponseDto (
+data class PostResponseDto(
     var id: UUID,
     var username: String,
     var university: String,

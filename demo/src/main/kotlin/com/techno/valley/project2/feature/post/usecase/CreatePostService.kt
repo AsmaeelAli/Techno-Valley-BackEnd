@@ -11,7 +11,7 @@ import com.techno.valley.project2.feature.post.model.entity.PostEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Service
 class CreatePostService(
@@ -37,7 +37,8 @@ class CreatePostService(
 
         // تحقق من وجود ملف
         if (file != null) {
-            val originalFilename = file.originalFilename ?: throw IllegalArgumentException("file does not have original filename")
+            val originalFilename =
+                file.originalFilename ?: throw IllegalArgumentException("file does not have original filename")
             val lowercaseFilename = originalFilename.lowercase()
 
             val isDocument = SUPPORTED_DOC_EXTENSIONS.any { lowercaseFilename.endsWith(it) }

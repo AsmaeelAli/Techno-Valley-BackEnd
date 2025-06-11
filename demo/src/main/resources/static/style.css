@@ -50,37 +50,38 @@ body {
     width: 80%;
     margin: 0 auto;
 }
+
 /* Search Bar -->*/
 .nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .search-bar {
+}
+
+.search-bar {
     display: flex;
     align-items: center;
     background-color: #f0f2f5;
     border-radius: 30px;
     padding: 5px 10px;
-  }
-  
-  .search-bar input {
+}
+
+.search-bar input {
     border: none;
     outline: none;
     padding: 8px 12px;
     border-radius: 30px;
     background: transparent;
     width: 200px;
-  }
-  
-  .search-bar button {
+}
+
+.search-bar button {
     background: none;
     border: none;
     cursor: pointer;
     font-size: 18px;
     color: #333;
-  }
+}
 
 .btn {
     display: inline-block;
@@ -91,7 +92,11 @@ body {
     transition: all 300ms ease;
     font-size: 0.9rem;
 }
-.logo{width: 160PX;}
+
+.logo {
+    width: 160PX;
+}
+
 .btn:hover {
     opacity: 0.8;
 }
@@ -126,7 +131,6 @@ nav .container {
     justify-content: space-between;
 
 }
-
 
 
 nav .search-bar input[type="search"]::placeholder {
@@ -294,7 +298,6 @@ main .container .left .profile {
 }
 
 
-
 .middle .feed .action-buttons {
     display: flex;
     justify-content: space-between;
@@ -302,12 +305,6 @@ main .container .left .profile {
     font-size: 1.4rem;
     margin: 0.6rem 0;
 }
-
-
-
-
-
-
 
 
 /* =============== Right ============== */
@@ -333,7 +330,6 @@ main .container .right {
     margin-bottom: 1rem;
     padding-left: 1.5rem;
 }
-
 
 
 /* Hover Effects */
@@ -420,7 +416,6 @@ main .container .right {
     align-items: center;
     margin-bottom: 1rem;
 }
-
 
 
 .top-contributors ul li .info h5 {
@@ -592,7 +587,6 @@ main .container .right {
 }
 
 
-
 /* الملفات في المنشورات */
 .feed .file {
     margin: 1rem 0;
@@ -685,19 +679,19 @@ MEDIA QUERIES FOR SMALL TABLETS AND MOBILE PHONES
     main .container {
         grid-template-columns: 1fr;
     }
+
     main .container .left,
     main .container .right {
         display: none;
     }
-    
+
     .experience-section {
         position: static;
         width: 100%;
         margin-top: 1rem;
     }
 
-   
-   
+
 }
 
 
@@ -717,16 +711,17 @@ MEDIA QUERIES FOR SMALL TABLETS AND MOBILE PHONES
 .feed .file a {
     font-size: 0.8rem;
 }
+
 /* تنسيق مركز الكارد */
 .profile-page .middle {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 40px;
-  }
-  
-  /* كارد البيانات */
-  .profile-page .info-card {
+}
+
+/* كارد البيانات */
+.profile-page .info-card {
     background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
@@ -735,34 +730,34 @@ MEDIA QUERIES FOR SMALL TABLETS AND MOBILE PHONES
     width: 400px;
     height: 200px;
     margin-bottom: 20px; /* مساحة بين كارد البيانات والأزرار */
-  }
-  
-  /* تنسيق العنوان */
-  .profile-page .info h2 {
+}
+
+/* تنسيق العنوان */
+.profile-page .info h2 {
     margin: 0 0 0.75rem;
     font-size: 1rem;
     color: #222;
     text-align: center;
-  }
-  
-  /* قائمة البيانات */
-  .profile-page .info-list {
+}
+
+/* قائمة البيانات */
+.profile-page .info-list {
     list-style: none;
     padding: 0;
     margin: 0;
     font-size: 0.85rem;
     color: #444;
-  }
-  
-  /* الأزرار أسفل كارد البيانات */
-  .profile-page .action-buttons {
+}
+
+/* الأزرار أسفل كارد البيانات */
+.profile-page .action-buttons {
     display: flex;
     justify-content: center;
     gap: 15px;
     margin-bottom: 20px; /* مساحة بين الأزرار وكارد المحتوى */
-  }
-  
-  .profile-page .action-btn {
+}
+
+.profile-page .action-btn {
     background-color: var(--color-primary);
     color: #fff;
     padding: 10px 20px;
@@ -771,14 +766,14 @@ MEDIA QUERIES FOR SMALL TABLETS AND MOBILE PHONES
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s;
-  }
-  
-  .profile-page .action-btn:hover {
+}
+
+.profile-page .action-btn:hover {
     background-color: #005fa3;
-  }
-  
-  /* كارد المحتوى الذي يظهر أسفل الأزرار */
-  .profile-page .content-card {
+}
+
+/* كارد المحتوى الذي يظهر أسفل الأزرار */
+.profile-page .content-card {
     background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
@@ -786,9 +781,10 @@ MEDIA QUERIES FOR SMALL TABLETS AND MOBILE PHONES
     width: var(--square-size);
     margin-top: 20px;
     text-align: center;
-  }
-  /************************* كارت الخبرات والبوتوم*****************************/
-  .experience-section {
+}
+
+/************************* كارت الخبرات والبوتوم*****************************/
+.experience-section {
     position: absolute;
     top: 2rem;
     right: 2rem;

@@ -1,225 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    html, body {
-      height: 100%;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #000000, #111111);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      color: #fff;
-    }
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom, #000000, #111111);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
 
-    .container {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      padding: 30px 25px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(15px);
-    }
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+        }
 
-    .sign_up_form h3 {
-      text-align: center;
-      margin-bottom: 25px;
-      font-size: 2rem;
-      font-weight: bold;
-      color: #fff;
-    }
+        .sign_up_form h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+        }
 
-    .input_box {
-      margin-bottom: 16px;
-    }
+        .input_box {
+            margin-bottom: 16px;
+        }
 
-    .input_box label {
-      display: block;
-      margin-bottom: 6px;
-      color: #ccc;
-      font-size: 14px;
-    }
+        .input_box label {
+            display: block;
+            margin-bottom: 6px;
+            color: #ccc;
+            font-size: 14px;
+        }
 
-    .input_box input {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(to right, #f0f0f0, #ccc);
-      border: none;
-      border-radius: 8px;
-      color: #000;
-      font-size: 15px;
-    }
+        .input_box input {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #f0f0f0, #ccc);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-size: 15px;
+        }
 
-    .sign_up_button {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(to right, #8e2de2, #4a00e0);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      margin-top: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+        .sign_up_button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #8e2de2, #4a00e0);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-    .sign_up_button:hover {
-      transform: scale(1.04);
-    }
+        .sign_up_button:hover {
+            transform: scale(1.04);
+        }
 
-    .sign_up {
-      text-align: center;
-      font-size: 14px;
-      margin-top: 15px;
-    }
+        .sign_up {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 15px;
+        }
 
-    .sign_up a {
-      color: #66aaff;
-      text-decoration: none;
-      font-weight: 500;
-    }
+        .sign_up a {
+            color: #66aaff;
+            text-decoration: none;
+            font-weight: 500;
+        }
 
-    .message {
-      display: none;
-      margin-top: 15px;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 14px;
-    }
+        .message {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
 
-    .success {
-      background-color: #00c853;
-      color: white;
-    }
+        .success {
+            background-color: #00c853;
+            color: white;
+        }
 
-    .error {
-      background-color: #d32f2f;
-      color: white;
-    }
+        .error {
+            background-color: #d32f2f;
+            color: white;
+        }
 
-    @media (min-width: 768px) {
-      .container {
-        padding: 40px 30px;
-      }
+        @media (min-width: 768px) {
+            .container {
+                padding: 40px 30px;
+            }
 
-      .sign_up_form h3 {
-        font-size: 2.4rem;
-      }
+            .sign_up_form h3 {
+                font-size: 2.4rem;
+            }
 
-      .input_box input {
-        font-size: 16px;
-      }
+            .input_box input {
+                font-size: 16px;
+            }
 
-      .sign_up_button {
-        font-size: 17px;
-      }
+            .sign_up_button {
+                font-size: 17px;
+            }
 
-      .sign_up {
-        font-size: 15px;
-      }
-    }
-  </style>
+            .sign_up {
+                font-size: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="signup_form" id="signupSection">
-    <form onsubmit="handleSignup(event)">
-      <h3 class="sign_up_form">Email Sign Up</h3>
+    <div class="signup_form" id="signupSection">
+        <form onsubmit="handleSignup(event)">
+            <h3 class="sign_up_form">Email Sign Up</h3>
 
-      <div class="input_box">
-        <label for="name">Full Name</label>
-        <input id="name" name="name" placeholder="Your full name" required type="text"/>
-      </div>
+            <div class="input_box">
+                <label for="name">Full Name</label>
+                <input id="name" name="name" placeholder="Your full name" required type="text"/>
+            </div>
 
-      <div class="input_box">
-        <label for="email">Email Address</label>
-        <input id="email" name="email" placeholder="example@mutah.edu.jo" required type="email"/>
-      </div>
+            <div class="input_box">
+                <label for="email">Email Address</label>
+                <input id="email" name="email" placeholder="example@mutah.edu.jo" required type="email"/>
+            </div>
 
-      <div class="input_box">
-        <label for="password">Password</label>
-        <input id="password" name="password" placeholder="Enter your password" required type="password"/>
-      </div>
+            <div class="input_box">
+                <label for="password">Password</label>
+                <input id="password" name="password" placeholder="Enter your password" required type="password"/>
+            </div>
 
-      <button class="sign_up_button" type="submit">Sign Up</button>
-      <p class="sign_up">I have an account <a href="login.html">Login</a></p>
-    </form>
-  </div>
+            <button class="sign_up_button" type="submit">Sign Up</button>
+            <p class="sign_up">I have an account <a href="login.html">Login</a></p>
+        </form>
+    </div>
 </div>
 
 <div class="message error" id="errorMessage"></div>
 
 <script>
-  function showError(message) {
-    const errorDiv = document.getElementById("errorMessage");
-    errorDiv.textContent = message;
-    errorDiv.style.display = "block";
-    setTimeout(() => {
-      errorDiv.style.display = "none";
-    }, 3000);
-  }
-
-  function handleSignup(event) {
-    event.preventDefault();
-
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-
-    const mutahRegex = /^[0-9]+@mutah\.edu\.jo$/;
-
-    if (!mutahRegex.test(email)) {
-      showError("❌ Invalid email format. Please use your university email: example@mutah.edu.jo");
-      return;
+    function showError(message) {
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.textContent = message;
+        errorDiv.style.display = "block";
+        setTimeout(() => {
+            errorDiv.style.display = "none";
+        }, 3000);
     }
 
-    fetch("/api/email/request", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        password: password,
-      }),
-    })
-      .then(async (response) => {
-        const contentType = response.headers.get("content-type");
-        const responseBody = contentType && contentType.includes("application/json")
-          ? await response.json()
-          : await response.text();
+    function handleSignup(event) {
+        event.preventDefault();
 
-        if (!response.ok) {
-          throw new Error(responseBody.message || responseBody || "❌ Failed to send verification code.");
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        const mutahRegex = /^[0-9]+@mutah\.edu\.jo$/;
+
+        if (!mutahRegex.test(email)) {
+            showError("❌ Invalid email format. Please use your university email: example@mutah.edu.jo");
+            return;
         }
 
-        localStorage.setItem("signupEmail", email);
-        localStorage.setItem("signupname", name);
-        localStorage.setItem("signupPassword", password);
+        fetch("/api/email/request", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                password: password,
+            }),
+        })
+            .then(async (response) => {
+                const contentType = response.headers.get("content-type");
+                const responseBody = contentType && contentType.includes("application/json")
+                    ? await response.json()
+                    : await response.text();
 
-        window.location.href = "send code.html";
-      })
-      .catch((error) => {
-        console.error("Actual error:", error);
-        showError("🚫 " + error.message);
-      });
-  }
+                if (!response.ok) {
+                    throw new Error(responseBody.message || responseBody || "❌ Failed to send verification code.");
+                }
+
+                localStorage.setItem("signupEmail", email);
+                localStorage.setItem("signupname", name);
+                localStorage.setItem("signupPassword", password);
+
+                window.location.href = "send code.html";
+            })
+            .catch((error) => {
+                console.error("Actual error:", error);
+                showError("🚫 " + error.message);
+            });
+    }
 </script>
 </body>
 </html>

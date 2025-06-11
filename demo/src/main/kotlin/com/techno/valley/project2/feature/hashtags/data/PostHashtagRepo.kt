@@ -4,7 +4,7 @@ import com.techno.valley.project2.feature.hashtags.model.entity.PostHashtagEntit
 import com.techno.valley.project2.utily.ID
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
-import java.util.UUID
+import java.util.*
 
 @Repository
 interface PostHashtagRepo : JpaRepository<PostHashtagEntity, ID> {

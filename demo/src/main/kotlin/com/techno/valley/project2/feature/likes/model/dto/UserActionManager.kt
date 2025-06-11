@@ -1,10 +1,10 @@
 package com.techno.valley.project2.feature.likes.model.dto
 
 import com.techno.valley.project2.utily.ID
-import java.time.LocalDateTime
-import java.util.UUID
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
+import java.util.*
 
 @Component
 class UserActionManager {
