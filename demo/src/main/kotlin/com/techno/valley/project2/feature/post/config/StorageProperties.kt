@@ -7,4 +7,7 @@ import org.springframework.context.annotation.Configuration
 @ConfigurationProperties(prefix = "storage")
 class StorageProperties {
     lateinit var location: String
+    lateinit var tempUploadDir: String
+    lateinit var quarantineDir: String
+    lateinit var suspiciousLogPath: String
 }

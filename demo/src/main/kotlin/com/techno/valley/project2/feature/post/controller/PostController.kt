@@ -1,6 +1,7 @@
 package com.techno.valley.project2.feature.post.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.techno.valley.project2.config.BannedWords
 import com.techno.valley.project2.config.security.config.OpenApiConfiguration
 import com.techno.valley.project2.config.security.model.UsersAuthentication
 import com.techno.valley.project2.feature.post.model.dto.CreatePostWithFileRequest

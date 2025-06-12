@@ -34,6 +34,9 @@ security:
 # application.yaml
 storage:
   location: /var/www/html/projctEdit4/uploads
+  temp-upload-dir: /tmp/uploads
+  quarantine-dir: /var/quarantine
+  suspicious-log-path: /var/log/suspicious-users.log
 
 
 sendgrid:

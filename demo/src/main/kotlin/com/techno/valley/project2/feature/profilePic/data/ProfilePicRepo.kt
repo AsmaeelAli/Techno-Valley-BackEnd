@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ProfilePicRepo : JpaRepository<ProfilePicEntity, ID>
+interface ProfilePicRepo : JpaRepository<ProfilePicEntity, ID>{
+    fun findByUserId(userId: ID): ProfilePicEntity
+}

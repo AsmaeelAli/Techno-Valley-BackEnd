@@ -10,7 +10,8 @@ data class PostResponseDto(
     var hashtag: String,
     var fileUrl: String?,
     var imageUrl: String?,
+    var profileUrl: String?,
     var isLiked: Boolean,
     var isSaved: Boolean,
-    var numperOfLikes: Int,
+    var numberOfLikes: Int,
 )

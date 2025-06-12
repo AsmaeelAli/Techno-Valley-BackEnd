@@ -1,11 +1,13 @@
 package com.techno.valley.project2.feature.profilePic.controller
 
 import com.techno.valley.project2.config.security.config.OpenApiConfiguration
+import com.techno.valley.project2.config.security.model.UsersAuthentication
 import com.techno.valley.project2.feature.profilePic.usecase.ProfilePicService
-import com.techno.valley.project2.utily.ID
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
@@ -17,14 +19,14 @@ class ProfilePicController(
     private val profilePicService: ProfilePicService
 ) {
 
-    // Endpoint لتحميل صورة الملف وتخزينها
-    @PostMapping("/upload")
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/upload", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun uploadProfilePic(
-        @RequestParam("userId") userId: ID,
+        auth: UsersAuthentication,
         @RequestParam("file") file: MultipartFile
     ): ResponseEntity<String> {
         return try {
-            //profilePicService.uploadProfilePic(userId, file)
+            profilePicService(auth, file)
             ResponseEntity.status(HttpStatus.CREATED).body("Profile picture uploaded successfully")
         } catch (e: IOException) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -32,12 +34,12 @@ class ProfilePicController(
         }
     }
 
-    // Endpoint لجلب صورة الملف
-    @GetMapping("/{userId}/picture")
-    fun getProfilePic(@PathVariable userId: ID): ResponseEntity<ByteArray> {
-        val image = profilePicService.getProfilePic(userId)
-        return if (image != null) {
-            ResponseEntity.ok().body(image)
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/picture")
+    fun getProfilePic(auth: UsersAuthentication): ResponseEntity<String> {
+        val imageUrl = profilePicService.getProfilePicUrl(auth)
+        return if (imageUrl != null) {
+            ResponseEntity.ok().body(imageUrl)
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
         }
