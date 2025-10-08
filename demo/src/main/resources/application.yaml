@@ -38,9 +38,9 @@ storage:
 
 sendgrid:
   api:
-    key: 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
+    key: ...
   sender:
-    email: "TECHNO-VALLEY-PROVIDER@outlook.com"
+    email: ...
 
 server:
   port: 8080
