@@ -5,7 +5,9 @@ import com.techno.valley.project2.feature.post.config.StorageProperties
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
-import java.util.UUID
+import java.nio.file.Files
+import java.time.LocalDateTime
+import java.util.*
 
 @Component
 class FileScannerService(
@@ -16,38 +18,75 @@ class FileScannerService(
     private val quarantineDir by lazy { File(storageProperties.quarantineDir) }
     private val suspiciousUsersLog by lazy { File(storageProperties.suspiciousLogPath) }
 
+    private val allowedMimeTypes = listOf(
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",       // .xlsx
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation", // .pptx
+        "application/zip",   // .zip
+        "application/x-rar-compressed", // .rar
+        "text/plain", // .txt
+        "image/png",
+        "image/jpeg"
+    )
+
+    private val allowedExtensions = listOf(
+        ".pdf", ".docx", ".xlsx", ".pptx", ".txt", ".png", ".jpg", ".jpeg", ".zip", ".rar"
+    )
+
     init {
         if (!tempUploadDir.exists()) tempUploadDir.mkdirs()
         if (!quarantineDir.exists()) quarantineDir.mkdirs()
         if (!suspiciousUsersLog.exists()) suspiciousUsersLog.createNewFile()
     }
 
-    fun scanFile(file: MultipartFile, auth: UsersAuthentication): ScanResult {
-        val tempFile = File(tempUploadDir, UUID.randomUUID().toString() + "_" + file.originalFilename)
-        file.transferTo(tempFile)
+    fun scanFile(file: MultipartFile, auth: UsersAuthentication): File? {
+        val originalFilename = file.originalFilename ?: return null
 
-        val process = ProcessBuilder("clamscan", tempFile.absolutePath).start()
-        val result = process.inputStream.bufferedReader().readText()
-        process.waitFor()
+        val lowerName = originalFilename.lowercase()
+        val hasValidExtension = allowedExtensions.any { lowerName.endsWith(it) }
+        if (!hasValidExtension) {
+            logSuspiciousUser("❌ Rejected extension: $lowerName | UserID: ${auth.id} | Username: ${auth.name}")
+            return null
+        }
 
-        return if (result.contains("FOUND")) {
-            tempFile.copyTo(File(quarantineDir, tempFile.name), overwrite = true)
+        val tempFile = File(tempUploadDir, UUID.randomUUID().toString() + "_" + originalFilename)
+        file.inputStream.use { input ->
+            tempFile.outputStream().use { output -> input.copyTo(output) }
+        }
+
+        // فقط لصاحب العملية (spring boot)
+        tempFile.setReadable(true, true)
+        tempFile.setWritable(true, true)
+
+        try {
+            val mimeType = Files.probeContentType(tempFile.toPath()) ?: "unknown"
+            if (mimeType !in allowedMimeTypes) {
+                tempFile.delete()
+                logSuspiciousUser("⛔ MimeType Blocked: $mimeType | UserID: ${auth.id} | Username: ${auth.name}")
+                return null
+            }
+
+            val process = ProcessBuilder("clamdscan", "--no-summary", tempFile.absolutePath).start()
+            val result = process.inputStream.bufferedReader().readText()
+            process.waitFor()
+
+            return if (result.contains("FOUND")) {
+                tempFile.delete()
+                logSuspiciousUser("🚨 Virus FOUND | file: $lowerName | UserID: ${auth.id} | Username: ${auth.name}")
+                null
+            } else {
+                tempFile
+            }
+
+        } catch (ex: Exception) {
             tempFile.delete()
-            logSuspiciousUser("UserID:${auth.id}  Username:${auth.name}")
-            ScanResult.Failed("Want to play?\n" +
-                    "Everything is recorded.")
-        } else {
-            tempFile.delete()
-            ScanResult.Clean("Bravo")
+            logSuspiciousUser("⚠️ Scan Failed | UserID: ${auth.id} | Username: ${auth.name} | Error: ${ex.message}")
+            return null
         }
     }
 
-    private fun logSuspiciousUser(authInfo: String) {
-        suspiciousUsersLog.appendText("[${System.currentTimeMillis()}] $authInfo\n")
-    }
-
-    sealed class ScanResult(val message: String) {
-        class Clean(message: String) : ScanResult(message)
-        class Failed(message: String) : ScanResult(message)
+    private fun logSuspiciousUser(info: String) {
+        suspiciousUsersLog.appendText("[${LocalDateTime.now()}] $info\n")
     }
 }

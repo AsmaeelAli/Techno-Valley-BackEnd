@@ -38,7 +38,9 @@ class VerificationHandler(
                 email = email,
                 password = hashedPassword,
                 verificationCode = code,
+                enable = true,
                 createdAt = LocalDateTime.now(),
+                aboutMe = "",
             ),
         )
 

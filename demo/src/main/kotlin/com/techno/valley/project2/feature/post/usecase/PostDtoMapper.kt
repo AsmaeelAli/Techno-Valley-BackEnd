@@ -35,7 +35,7 @@ class PostDtoMapper(
             hashtag = postHashtag.tag,
             fileUrl = post.fileUrl,
             imageUrl = post.imageUrl,
-            profileUrl = profilePicRepo.findByUserId(user.id).imageUrl,
+            profileUrl = profilePicRepo.findByUserId(user.id)?.imageUrl,
             isLiked = isLiked,
             isSaved = isSaved,
             numberOfLikes = counter,

@@ -26,8 +26,8 @@ class ProfilePicController(
         @RequestParam("file") file: MultipartFile
     ): ResponseEntity<String> {
         return try {
-            profilePicService(auth, file)
-            ResponseEntity.status(HttpStatus.CREATED).body("Profile picture uploaded successfully")
+            val imageUrl = profilePicService(auth, file)
+            ResponseEntity.status(HttpStatus.CREATED).body(imageUrl)
         } catch (e: IOException) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Error uploading profile picture: ${e.message}")

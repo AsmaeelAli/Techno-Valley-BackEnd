@@ -7,8 +7,8 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(45deg, #6a11cb, #cfd1d4e9);
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,53 +17,69 @@
             overflow: hidden;
         }
 
-        .background-ball {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #ff00cc, #3030ee);
-            filter: blur(60px);
-            pointer-events: none;
-            mix-blend-mode: screen;
-            z-index: 0;
-            transition: transform 0.05s ease-out;
-        }
-
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
+            background: rgba(35, 34, 34, 0.919);
             border-radius: 12px;
-            text-align: center;
+            padding: 40px 35px;
+            width: 400px;
+            max-width: 600px;
+            box-shadow: 0 0 40px rgba(128, 0, 128, 0.589);
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-            width: 300px;
             z-index: 1;
+            text-align: center;
         }
 
-        input[type="text"],
-        input[type="email"] {
+        h2 {
+            margin-bottom: 25px;
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #a64ac9, #6a00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input_box {
+            margin-bottom: 16px;
+        }
+
+        .input_box label {
+            display: block;
+            margin-bottom: 4px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .input_box input {
             width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            background-color: #fff;
-            color: #333;
+            padding: 14px;
+            font-size: 17px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background-color: #222;
+            color: #fff;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .input_box input:focus {
+            outline: none;
+            border-color: #8e2de2;
+            background-color: #333;
         }
 
         button {
-            padding: 10px;
+            padding: 14px;
             width: 100%;
-            background-color: #5a00cc;
+            background: linear-gradient(to right, #8e2de2, #4a00e0);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 16px;
+        }
+
+        button:hover {
+            opacity: 0.95;
         }
 
         .resend {
@@ -76,7 +92,32 @@
             color: yellow;
         }
 
-        /* Loading Screen with rotating dots */
+        .error-box {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .info-box {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background-color: #ffc107;
+            color: #000;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-family: 'Segoe UI', monospace;
+            font-weight: bold;
+        }
+
         .loading-screen {
             position: fixed;
             top: 0;
@@ -124,24 +165,23 @@
         }
 
         @keyframes bounce {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.5);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.5); }
         }
-
     </style>
 </head>
 <body>
 
-<div class="background-ball" id="colorBall"></div>
-
 <div class="container">
     <h2>Enter Verification Code</h2>
-    <input disabled id="emailInput" maxlength="100" placeholder="Your email" type="email"/>
-    <input id="codeInput" maxlength="8" placeholder="Enter code here" type="text"/>
+    <div class="input_box">
+        <label for="emailInput">Your Email</label>
+        <input disabled id="emailInput" maxlength="100" placeholder="Your email" type="email"/>
+    </div>
+    <div class="input_box">
+        <label for="codeInput">Enter Code</label>
+        <input id="codeInput" maxlength="8" placeholder="Enter code here" type="text"/>
+    </div>
     <button onclick="verifyCode()">Verify Code</button>
 
     <div class="resend">
@@ -150,9 +190,11 @@
     </div>
 
     <div class="message" id="messageArea"></div>
+    <div class="error-box" id="errorBox"></div>
+    <div class="info-box" id="infoBox"></div>
 </div>
 
-<!-- Loading Screen with bouncing dots -->
+<!-- Loading screen -->
 <div class="loading-screen" id="loadingScreen">
     <div class="dots">
         <div class="dot"></div>
@@ -163,15 +205,16 @@
 </div>
 
 <script>
-    let timeLeft = 180; // 3 دقائق
-    let countdown; // نخزن الـ interval هنا
+    let timeLeft = 5;
+    let countdown;
 
     const timerSpan = document.getElementById("timer");
     const resendBtn = document.getElementById("resendBtn");
     const messageArea = document.getElementById("messageArea");
     const loadingScreen = document.getElementById("loadingScreen");
+    const errorBox = document.getElementById("errorBox");
+    const infoBox = document.getElementById("infoBox");
 
-    // تعيين الإيميل من localStorage
     const email = localStorage.getItem("signupEmail");
     document.getElementById("emailInput").value = email || "";
 
@@ -187,11 +230,10 @@
         }, 1000);
     }
 
-    startCountdown(); // أول مرة يبدأ المؤقت
+    startCountdown();
 
     function verifyCode() {
         const enteredCode = document.getElementById("codeInput").value.trim();
-        const email = document.getElementById("emailInput").value;
 
         if (!enteredCode || !email) {
             messageArea.style.color = "red";
@@ -203,57 +245,51 @@
 
         fetch("/api/email/verify", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email,
-                code: enteredCode,
-            }),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, code: enteredCode }),
         })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Response:", data);
-
-                if (data.success) {
-                    messageArea.style.color = "lightgreen";
-                    messageArea.textContent = "✅ Code is correct! Redirecting...";
-                    setTimeout(() => {
-                        window.location.href = "login.html";
-                    }, 2000);
-                } else {
-                    messageArea.style.color = "red";
-                    messageArea.textContent = "❌ Incorrect code. Please try again.";
-                }
-            })
-            .catch((error) => {
-                console.error("Error verifying code:", error);
+        .then(response => response.json())
+        .then(data => {
+            hideLoadingScreen();
+            if (data.success) {
+                messageArea.style.color = "lightgreen";
+                messageArea.textContent = "✅ Code is correct! Redirecting...";
+                setTimeout(() => window.location.href = "login.html", 2000);
+            } else {
                 messageArea.style.color = "red";
-                messageArea.textContent = "❌ Something went wrong. Please try again.";
-            });
+                messageArea.textContent = "❌ Incorrect code. Please try again.";
+            }
+        })
+        .catch(error => {
+            hideLoadingScreen();
+            messageArea.style.color = "red";
+            messageArea.textContent = "❌ Something went wrong.";
+        });
     }
 
     function resendCode() {
-        timeLeft = 180;
+        timeLeft = 5;
         resendBtn.disabled = true;
-        messageArea.style.color = "yellow";
-        messageArea.textContent = "🔁 A new code has been sent.";
-        timerSpan.textContent = `Resend available in 180s`;
+        timerSpan.textContent = `Resend available in ${timeLeft}s`;
 
-        clearInterval(countdown); // أوقف العد القديم
-        startCountdown(); // وابدأ واحد جديد
+        clearInterval(countdown);
+        startCountdown();
 
-        // إرسال طلب لإعادة إرسال الكود من الباكند
-        fetch("", {
+        fetch("/api/email/resend", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email
-            })
-        }).catch(err => {
-            console.error("Error resending code:", err);
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email })
+        })
+        .then(async response => {
+            const contentType = response.headers.get("content-type");
+            const text = await response.text();
+
+            if (!response.ok) throw new Error(contentType.includes("application/json") ? JSON.parse(text).message : text);
+
+            showInfo("🔁 تم إرسال كود تأكيد.");
+        })
+        .catch(err => {
+            showError(err.message);
         });
     }
 
@@ -261,11 +297,31 @@
         loadingScreen.style.display = "flex";
     }
 
-    // الكرة الملونة الخلفية
-    const ball = document.getElementById("colorBall");
-    document.addEventListener("mousemove", (e) => {
-        ball.style.transform = `translate(${e.clientX - 100}px, ${e.clientY - 100}px)`;
-    });
+    function hideLoadingScreen() {
+        loadingScreen.style.display = "none";
+    }
+
+    function showError(message) {
+        errorBox.textContent = message;
+        errorBox.style.display = "block";
+        errorBox.style.opacity = "1";
+
+        setTimeout(() => {
+            errorBox.style.opacity = "0";
+            setTimeout(() => errorBox.style.display = "none", 500);
+        }, 5000);
+    }
+
+    function showInfo(message) {
+        infoBox.textContent = message;
+        infoBox.style.display = "block";
+        infoBox.style.opacity = "1";
+
+        setTimeout(() => {
+            infoBox.style.opacity = "0";
+            setTimeout(() => infoBox.style.display = "none", 500);
+        }, 5000);
+    }
 </script>
 
 </body>

@@ -30,13 +30,7 @@ class UsersBasicFilter(
 
         println("Requested path: $path")
 
-        val remoteAddr = request.remoteAddr
-        if (remoteAddr == "192.168.129.235" ||
-            remoteAddr == "192.168.1.103:8080" ||
-            remoteAddr == "192.168.1.103" ||
-            path.startsWith("/swagger-ui") ||
-            path.startsWith("/v3/api-docs") ||
-            path.startsWith("/swagger-resources") ||
+        if (
             path.startsWith("/api/auth/login") ||
             path.startsWith("/api/email/request") ||
             path.startsWith("/api/email/verify") ||

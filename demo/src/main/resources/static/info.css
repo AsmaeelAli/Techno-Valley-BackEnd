@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-
 :root {
     --primary-color-hue: 252;
     --dark-color-lightness: 17%;
@@ -19,13 +18,12 @@
 
     --border-radius: 2rem;
     --card-border-radius: 1rem;
-    --btn-padding: 0.4rem 1.5rem;
+    --btn-padding: 0.6rem 2rem;
     --search-padding: 0.6rem 1rem;
     --card-padding: 1rem;
 
     --sticky-top-left: 5.4rem;
     --sticky-top-right: -18rem;
-
 }
 
 *, *::before, *::after {
@@ -44,52 +42,15 @@ body {
     background: var(--color-light);
     overflow-x: hidden;
 }
-/*logo*/
-.logo
-{width: 160px;}
+
 /* =============== General Style ============== */
 .container {
     width: 80%;
     margin: 0 auto;
 }
 
-.profile-photo {
-    width: 2.7rem;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-img {
-    display: block;
-    width: 100%;
-}
-
-.btn {
-    display: inline-block;
-    padding: var(--btn-padding);
-    font-weight: 500;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: all 300ms ease;
-    font-size: 0.9rem;
-}
-
-.btn:hover {
-    opacity: 0.8;
-}
-
-.btn-primary {
-    background: var(--color-primary);
-    color: var(--color-white);
-}
-
-.text-bold {
-    font-weight: 500;
-}
-
-.text-muted {
-    color: var(--color-grey);
+.logo {
+    width: 160px;
 }
 
 /* =============== Navbar ============== */
@@ -106,36 +67,7 @@ nav .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
 }
-
-.search-bar {
-    background: var(--color-light);
-    border-radius: var(--border-radius);
-    
-    padding: var(--search-padding);
-}
-
-.search-bar input[type="search"] {
-    background: transparent;
-    width: 30vw;
-    margin-left: 1rem;
-    font-size: 0.9rem;
-    color: rgb(0, 0, 0);
-}
-
-nav .search-bar input[type="search"]::placeholder {
-    color: var(--color-grey);
-}
-
-nav .create {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-
-
 
 /* =============== Main ============== */
 main {
@@ -150,71 +82,130 @@ main .container {
     position: relative;
 }
 
-/* =============== Left ============== */
-main .container .left {
-    height: max-content;
-    position: sticky;
-    top: var(--sticky-top-left);
-}
-
-main .container .left .profile {
-    padding: var(--card-padding);
-    background: var(--color-white);
-    border-radius: var(--card-border-radius);
-    display: flex;
-    align-items: center;
-    column-gap: 1rem;
-    width: 100%;
-}
-
-
 
 /* =============== Middle ============== */
 
-/* =============== Create Post ============== */
-.custom-textarea {
-    width: 100%;
-    min-height: 20px;
-    padding: 0.75rem 1rem;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--color-light);
-    background-color: var(--color-white);
-    color: var(--color-dark);
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-    resize: vertical; /* يسمح بتغيير الارتفاع فقط */
-    transition: border-color 0.3s ease;
-}
-
-.custom-textarea::placeholder {
-    color: var(--color-grey);
-}
-
-.custom-textarea:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 6px var(--color-primary);
-}
-
-
-.middle .create-post {
-    width: 100%;
+.middle {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 1rem;
-    background: var(--color-white);
-    padding: 0.4rem var(--card-padding);
-    border-radius: var(--border-radius);
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-.middle .create-post input[type="text"] {
+/* Profile Image */
+.profile-photo {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 1rem;
+    background: #ccc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    image-rendering: auto; /* يسمح للمتصفح باختيار أفضل جودة */
+    -ms-interpolation-mode: bicubic; /* دعم أقدم للوضوح في IE */
+}
+
+.profile-photo img {
     width: 100%;
-    justify-self: start;
-    padding-left: 1rem;
-    background: transparent;
-    color: var(--color-dark);
-    margin-right: 1rem;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    image-rendering: auto; /* الحفاظ على الجودة */
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0); /* تحسين حدة الصورة في بعض الحالات */
+}
+
+/* Profile Container */
+.profile-container {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+     margin-bottom: 1rem;
+     margin-top: 1rem;
+}
+
+/* User Info Card */
+.info-card {
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Image and Upload Image Button Container */
+.profile-image-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Upload Image Button */
+.upload-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.upload-image i {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.upload-image p {
+    font-size: 0.9rem;
+    margin-top: 5px;
+    color: #333;
+}
+
+/* About Me Card */
+.about-me-card {
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.about-me-card textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-grey);
+    font-size: 1rem;
+}
+
+.about-me-card button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+}
+
+.about-me-card button:hover {
+    background-color: #005fa3;
 }
 
 /* =============== Feeds ============== */
@@ -273,155 +264,42 @@ main .container .left .profile {
     margin-left: 0.5rem;
 }
 
-/* =============== Right ============== */
-main .container .right {
-    height: max-content;
-    position: sticky;
-    top: var(--sticky-top-right);
-    bottom: 0;
-}
-
-
-
-
-
-/* Hover Effects */
-.menu-item:hover {
-    background: var(--color-light);
-    transition: all 300ms ease;
-}
-/* Trending Hashtags */
-.trending-hashtags {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    margin-bottom: 1rem;
-     margin-top: 1rem;
-}
-
-.trending-hashtags h4 {
-    margin-bottom: 1rem;
-}
-
-.trending-hashtags ul {
-    list-style: none;
-}
-
-.trending-hashtags ul li {
-    margin-bottom: 0.5rem;
-}
-
-.trending-hashtags ul li a {
-    color: var(--color-primary);
-    text-decoration: none;
-}
-
-.trending-hashtags ul li a:hover {
-    text-decoration: underline;
-}
-
-/* Upcoming Events */
-.upcoming-events {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    margin-bottom: 1rem;
-}
-
-.upcoming-events h4 {
-    margin-bottom: 1rem;
-}
-
-.upcoming-events ul {
-    list-style: none;
-}
-
-.upcoming-events ul li {
-    margin-bottom: 1rem;
-}
-
-.upcoming-events ul li h5 {
-    font-size: 1rem;
-}
-
-.upcoming-events ul li p {
-    font-size: 0.9rem;
-    color: var(--color-grey);
-}
-
-/* Top Contributors */
-.top-contributors {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-}
-
-.top-contributors h4 {
-    margin-bottom: 1rem;
-}
-
-.top-contributors ul {
-    list-style: none;
-}
-
-.top-contributors ul li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.top-contributors ul li .profile-photo {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-right: 1rem;
-}
-
-.top-contributors ul li .info h5 {
-    font-size: 1rem;
-}
-
-.top-contributors ul li .info p {
-    font-size: 0.9rem;
-    color: var(--color-grey);
-}
-/* Create Post Form */
-.create-post {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--border-radius);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.create-post input[type="text"] {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid var(--color-light);
-    border-radius: var(--border-radius);
-}
-
-.create-post input[type="button"] {
-    background: var(--color-primary);
-    color: var(--color-white);
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-}
-
 /* Feeds Section */
 .feeds {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    margin-top: 1rem;
+    width: 100%; /* يمنع التمدد خارج الحاوية */
 }
 
+/* ضبط كارت البوست */
 .feed {
     background: var(--color-white);
     padding: var(--card-padding);
-    border-radius: var(--border-radius);
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.content-card,
+.about-me-card,
+.info-card,
+.feed {
+    width: 100%;
+}
+
+.feed img,
+.feed iframe,
+.feed .file,
+.feed .post-media {
+    max-width: 100%;
+    height: revert-layer;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .feed .head {
@@ -511,6 +389,22 @@ main .container .right {
 .feed .file a:hover {
     text-decoration: underline;
 }
+
+.post-media {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+/* يجعل الصور تأخذ عرض الكارت فقط */
+.post-image {
+    width: 100%;
+    height: auto;
+    border-radius: var(--card-border-radius);
+    display: block;
+    object-fit: cover;
+    max-height: 400px;
+}
+
 /* Activity Posts */
 .activity-posts {
     display: flex;
@@ -538,35 +432,158 @@ main .container .right {
     font-size: 0.8rem;
 }
 
-    .active-like {
-        color: red !important;
-    }
+.btn-like-active {
+    color: red !important;
+}
 
-    .active-save {
-        color: blue !important;
-    }
+.btn-save-active {
+    color: blue !important;
+}
 
-    .action-buttons button {
-        font-size: 1.6rem;
-        background: none;
-        border: none;
-        cursor: pointer;
-        transition: color 0.3s;
-    }
+.btn-action-icon {
+    font-size: 1.6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
 
 
 
-/* ================= 
+/* Experience Card */
+.experience-section {
+    position: absolute;
+    top: 2rem;
+    right: -2rem;
+    width: 300px;
+}
+
+.experience-card {
+    background: var(--color-white);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.experience-card h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#experience-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#experience-form input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+#experience-form button {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+}
+
+#experience-form button:hover {
+    background: #0056b3;
+}
+
+#experience-list li {
+    background: #f1f1f1;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+/* Experience Card */
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #005fa3;
+}
+
+/* Content Card */
+.content-card {
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+}
+
+/* =============== Right ============== */
+main .container .right {
+    height: max-content;
+    position: sticky;
+    top: var(--sticky-top-right);
+    bottom: 0;
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+}
+
+.close-lightbox {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+}
+
+
+/* =================
 MEDIA QUERIES FOR SMALL LAPTOP AND BIG TABLETS 
 ==================== */
-
 @media screen and (max-width: 1200px) {
     .container {
         width: 96%;
     }
 
     main .container {
-        grid-template-columns: 5rem auto 30vw;
+        grid-template-columns: 5rem 1fr;
         gap: 1rem;
     }
 
@@ -602,41 +619,16 @@ MEDIA QUERIES FOR SMALL TABLETS AND MOBILE PHONES
     }
 
     main .container {
-        grid-template-columns: 0 auto 5rem;
-        gap: 0;
+        grid-template-columns: 1fr;
     }
-
-    main .container .left {
-        grid-column: 3/4;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-    }
-
-    /* Notification Popup */
-    .left .notifications-popup { 
-        position: absolute;
-        left: -20rem;
-        width: 20rem;
-    }
-
-    .left .notifications-popup::before {
-        display: absolute;
-        top: 1.3rem;
-        left: calc(20rem - 0.6rem);
-        display: block;
-    }
-
-    main .container .middle {
-        grid-column: 1/3;
-    }
-
+    main .container .left,
     main .container .right {
         display: none;
     }
 
-    .customize-theme .card {
-        width: 80vw; 
+    .experience-section {
+        position: static;
+        width: 100%;
+        margin-top: 1rem;
     }
 }
-

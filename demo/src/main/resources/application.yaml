@@ -6,8 +6,8 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 20MB
-      max-request-size: 20MB
+      max-file-size: 100MB
+      max-request-size: 100MB
 
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
@@ -35,8 +35,8 @@ security:
 storage:
   location: /var/www/html/projctEdit4/uploads
   temp-upload-dir: /tmp/uploads
-  quarantine-dir: /var/quarantine
-  suspicious-log-path: /var/log/suspicious-users.log
+  quarantine-dir: /var/quarantinestor
+  suspicious-log-path: /var/techno-valley/logs/suspicious/suspicious-users.log
 
 
 sendgrid:

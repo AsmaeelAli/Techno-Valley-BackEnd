@@ -5,118 +5,167 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Techno Valley</title>
+
     <!-- IconScout CDN -->
     <link href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css" rel="stylesheet">
+
     <!-- Stylesheet -->
-    <link href="./style.css" rel="stylesheet">
-    <link href="WP_3.png" rel="icon" type="image/jpg">
+    <link href="./sidebar.css" rel="stylesheet">
+    <script src="sidebar.js"></script>
+    <link href="./info.css" rel="stylesheet">
+    <link rel="icon" type="image/jpg" href="images/WP_3.png">
 </head>
+
 <body class="profile-page">
 
-<nav>
-    <div class="container">
-        <img class="logo" src="noBgColorcc.png">
+    <!-- Navbar -->
+    <nav>
+        <div class="container">
+            <img src="images/noBgColorcc.png" class="logo">
+        </div>
+    </nav>
 
+    <!-- Main Content -->
+    <main>
+        <div class="container">
 
+ <!-- LEFT Sidebar -->
+    <div class="left">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <a class="menu-item" href="index.html">
+                    <span><i class="uil uil-home"></i></span>
+                    <h3>Home</h3>
+                </a>
+                <a class="menu-item" href="Explore.html">
+                    <span><i class="uil uil-compass"></i></span>
+                    <h3>Explore</h3>
+                </a>
+                <a class="menu-item" href="courses.html">
+                    <span><i class="uil uil-book-open"></i></span>
+                    <h3>Courses</h3>
+                </a>
+                <a class="menu-item" href="info.html">
+                    <span><i class="uil uil-user"></i></span>
+                    <h3>My Profile</h3>
+                </a>
+                <a class="menu-item" href="support.html">
+                    <span><i class="uil uil-question-circle"></i></span>
+                    <h3>Help & Support</h3>
+                </a>
+            </div>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">
+            <i class="uil uil-signout"></i>
+            <span>Logout</span>
+        </button>
     </div>
-</nav>
 
-<!-------------------------------- MAIN ----------------------------------->
-<main>
-    <div class="container">
-        <!----------------- LEFT -------------------->
-        <div class="left">
+            <!-- MIDDLE Main Content -->
+            <div class="middle">
+                <!-- Profile Container -->
+                <div class="profile-container">
 
+                    <!-- User Info Card -->
+                    <div class="info-card" id="user-info-card">
+                        <div class="info">
+                            <div class="profile-image-container">
+                                <div class="profile-photo">
+                                    <img id="profile-picture" src="images/default-avatar.png">
+                                </div>
+                                <div class="upload-image">
+                                    <label for="upload-image-input">
+                                        <i class="uil uil-camera"></i>
+                                    </label>
+                                    <input type="file" id="upload-image-input" style="display:none;" onchange="previewImage(event)">
+                                </div>
+                            </div>
+                            <h3 id="profile-name"></h3>
+                            <ul class="info-list">
+                                <li><strong>Email:</strong> <span id="profile-email"></span></li>
+                                <li><strong>University:</strong> <span id="profile-university"></span></li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <!----------------- SIDEBAR -------------------->
-            <div class="sidebar">
-                <!-- General Section -->
-                <div class="sidebar-section">
-
-                    <a class="menu-item " href="index.html">
-                        <span><i class="uil uil-home"></i></span>
-                        <h3>Home</h3>
-                    </a>
-                    <a class="menu-item" href="Explore.html">
-                        <span><i class="uil uil-compass"></i></span>
-                        <h3>Explore</h3>
-                    </a>
-
-                    <a class="menu-item" href="#">
-                        <span><i class="uil uil-book-open"></i></span>
-                        <h3>Courses</h3>
-                    </a>
-
-                    <a class="menu-item" href="#">
-                        <span><i class="uil uil-file-alt"></i></span>
-                        <h3>Resources</h3>
-                    </a>
-                    <a class="menu-item active" href="info.html">
-                        <span><i class="uil uil-user"></i></span>
-                        <h3>My Profile</h3>
-                    </a>
-
-                    <a class="menu-item" href="#">
-                        <span><i class="uil uil-question-circle"></i></span>
-                        <h3>Help & Support</h3>
-                    </a>
+                    <!-- About Me Box -->
+                    <div class="about-me-card">
+                        <h3>About Me</h3>
+                        <textarea id="about-me-text" placeholder="Write something about yourself..." rows="4" cols="50"></textarea>
+                        <button id="save-about-me" onclick="saveAboutMe()">Save</button>
+                        <p id="about-me-display"></p>
+                    </div>
                 </div>
 
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn" id="post-btn">Post</button>
+                    <button class="action-btn" id="like-btn">Like</button>
+                    <button class="action-btn" id="saved-btn">Saved Post</button>
+                </div>
 
-            </div>
-            <!----------------- END OF SIDEBAR -------------444444------>
+                <!-- Content Message -->
+                <div class="content-card" id="content-card">
+                    <p>Choose a button to view content here.</p>
+                </div>
 
-
-        </div>
-
-        <!----------------- MIDDLE (Main Content) -------------------->
-        <div class="middle">
-            <!-- كارد بيانات المستخدم -->
-            <div class="info-card" id="user-info-card">
-                <div class="info">
-                    <h3 id="profile-name">Name: </h3>
-                    <ul class="info-list">
-                        <li><strong>ID:</strong> <span id="profile-id"></span></li>
-                        <li><strong>Role:</strong> <span id="profile-role"></span></li>
-                        <li><strong>Email:</strong> <span id="profile-email"></span></li>
-                        <li><strong>University:</strong> <span id="profile-university"></span></li>
-                    </ul>
+                <!-- Posts Feed -->
+                <div id="postsContainer" class="feeds">
+                    <!-- المنشورات ستظهر هنا -->
                 </div>
             </div>
 
-            <!-- كارد الأزرار -->
-            <div class="action-buttons">
-                <button class="action-btn" id="post-btn">Post</button>
-                <button class="action-btn" id="like-btn">Like</button>
-                <button class="action-btn" id="saved-btn">Saved Post</button>
+            <!-- Experience Section -->
+            <div class="experience-section">
+                <div class="experience-card">
+                    <h3>Experiences</h3>
+                    <form id="experience-form">
+                        <input type="text" id="experience-input" placeholder="Write experiences" required />
+                        <button type="submit" id="experience-btn">Add</button>
+                    </form>
+                    <ul id="experience-list"></ul>
+                </div>
             </div>
 
-            <!-- كارد المحتوى -->
-            <div class="content-card" id="content-card">
-                <p> Choose a button to view content here.</p>
-            </div>
         </div>
-        <div class="experience-section">
-            <div class="experience-card">
-                <h3>experiences</h3>
-                <form id="experience-form">
-                    <input id="experience-input" placeholder="Write experiences" required type="text"/>
-                    <button type="submit">add</button>
-                </form>
-                <ul id="experience-list"></ul>
-            </div>
-        </div>
+    </main>
 
-    </div>
+    <!-- Scripts -->
+    <script src="jwtHelper.js"></script>
+    <script type="module" src="info.js"></script>
+
+    <!-- Lightbox for profile image preview -->
+    <div id="media-lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="close-lightbox">&times;</span>
+        <img id="lightbox-img" src="" alt="media preview">
     </div>
 
+    <script>
+        document.getElementById("profile-picture").addEventListener("click", function () {
+            const src = this.src;
+            const lightbox = document.getElementById("media-lightbox");
+            const img = document.getElementById("lightbox-img");
 
-</main>
-</main>
+            img.src = src;
+            lightbox.style.display = "flex";
+        });
 
-<!----------------- THEME CUSTOMIZATION -------------------->
+        function closeLightbox() {
+            const lightbox = document.getElementById("media-lightbox");
+            lightbox.style.display = "none";
+            document.getElementById("lightbox-img").src = "";
+        }
+    </script>
+<script>
+  function handleLogout() {
+    // حذف بيانات الجلسة
+    sessionStorage.clear();
+    localStorage.clear(); // في حال كنت تستخدم localStorage أيضًا
 
+    // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+    window.location.href = "login.html";
+  }
+</script>
 
-<script src="./index.js"></script>
 </body>
 </html>

@@ -11,4 +11,6 @@ interface SavesRepo : JpaRepository<SavesEntity, ID> {
     fun findByUserIdAndPostId(userId: ID, postId: UUID): SavesEntity?
 
     fun existsByUserIdAndPostIdAndEnableTrue(userId: ID, postId: UUID): Boolean
+
+    fun findByUserIdAndEnableTrue(userId: ID): List<SavesEntity>
 }

@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="ca472379-9ddc-4025-909f-0174ee5b8725" name="Techno-valley-server">
-        <fileTransfer rootFolder="/root" accessType="SFTP" host="83.171.248.254" port="22" sshConfigId="fbcdde06-5da2-4587-8039-dae0bdae6e6a" sshConfig="root@83.171.248.254:22 password">
+        <fileTransfer rootFolder="/root" accessType="SFTP" host="83.171.248.254" port="22" sshConfigId="a1ede6dc-b4c2-4243-a9b1-b714c7eb7e63" sshConfig="root@83.171.248.254:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

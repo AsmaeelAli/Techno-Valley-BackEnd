@@ -1,342 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta content="Techno-Valley - Collaborative academic platform for IT students and professors in Jordanian universities"
-          name="description">
-    <title>Techno-Valley | IT Academic Collaboration Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary-color: #3b82f6;
-            --text-dark: #1e293b;
-            --text-light: #64748b;
-            --light-bg: #f8fafc;
-            --white: #ffffff;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --border-radius: 8px;
-            --border-radius-lg: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Techno-Valley - Collaborative academic platform for IT students and professors in Jordanian universities">
+  <title>Techno-Valley | IT Academic Collaboration Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary-color: #3b82f6;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --light-bg: #f8fafc;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+      --border-radius: 8px;
+      --border-radius-lg: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
 
-        /* Header Styles */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 80px 0;
-            gap: 40px;
-        }
+    /* Header Styles */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 0;
+      gap: 40px;
+    }
 
-        .header-text {
-            flex: 1;
-            min-width: 300px;
-        }
+    .header-text {
+      flex: 1;
+      min-width: 300px;
+    }
 
-        .header-text h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 24px;
-            line-height: 1.2;
-            background: linear-gradient(to right, #2563eb, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .header-text h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 24px;
+      line-height: 1.2;
+      background: linear-gradient(to right, #2563eb, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .header-text p {
-            font-size: 1.25rem;
-            color: var(--text-light);
-            margin-bottom: 32px;
-            max-width: 600px;
-        }
+    .header-text p {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      margin-bottom: 32px;
+      max-width: 600px;
+    }
 
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--primary-color);
-            color: var(--white);
-            border: none;
-            padding: 16px 32px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            box-shadow: var(--shadow-sm);
-        }
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--primary-color);
+      color: var(--white);
+      border: none;
+      padding: 16px 32px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      box-shadow: var(--shadow-sm);
+    }
 
-        .cta-button:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
+    .cta-button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
 
-        .header-image {
-            flex: 1;
-            min-width: 300px;
-            display: flex;
-            justify-content: center;
-        }
+    .header-image {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      justify-content: center;
+    }
 
-        .header-image img {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            animation: float 6s ease-in-out infinite;
-        }
+    .header-image img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      animation: float 6s ease-in-out infinite;
+    }
 
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-15px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
-        }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
 
-        /* Features Section */
-        .section {
-            padding: 80px 0;
-        }
+    /* Features Section */
+    .section {
+      padding: 80px 0;
+    }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-        }
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
 
-        .section-title h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 16px;
-        }
+    .section-title h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+    }
 
-        .section-title p {
-            font-size: 1.125rem;
-            color: var(--text-light);
-            max-width: 700px;
-            margin: 0 auto;
-        }
+    .section-title p {
+      font-size: 1.125rem;
+      color: var(--text-light);
+      max-width: 700px;
+      margin: 0 auto;
+    }
 
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
 
-        .feature-card {
-            background-color: var(--white);
-            padding: 32px;
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            text-align: center;
-            border: 1px solid rgba(59, 130, 246, 0.1);
-        }
+    .feature-card {
+      background-color: var(--white);
+      padding: 32px;
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      text-align: center;
+      border: 1px solid rgba(59, 130, 246, 0.1);
+    }
 
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(59, 130, 246, 0.2);
-        }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(59, 130, 246, 0.2);
+    }
 
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.2));
-            border-radius: 50%;
-        }
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.2));
+      border-radius: 50%;
+    }
 
-        .feature-icon i {
-            font-size: 1.75rem;
-            color: var(--primary-color);
-        }
+    .feature-icon i {
+      font-size: 1.75rem;
+      color: var(--primary-color);
+    }
 
-        .feature-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-dark);
-        }
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-dark);
+    }
 
-        .feature-card p {
-            font-size: 1rem;
-            color: var(--text-light);
-            line-height: 1.7;
-        }
+    .feature-card p {
+      font-size: 1rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
 
-        /* Footer */
-        .footer {
-            background-color: var(--white);
-            padding: 40px 0;
-            text-align: center;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-        }
+    /* Footer */
+    .footer {
+      background-color: var(--white);
+      padding: 40px 0;
+      text-align: center;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
 
-        .footer p {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
+    .footer p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
 
-        /* Responsive Adjustments */
-        @media (max-width: 992px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-                padding: 60px 0;
-            }
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+      .header {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 0;
+      }
 
-            .header-text {
-                margin-bottom: 40px;
-            }
+      .header-text {
+        margin-bottom: 40px;
+      }
 
-            .header-text p {
-                margin-left: auto;
-                margin-right: auto;
-            }
+      .header-text p {
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-            .section-title h2 {
-                font-size: 2rem;
-            }
-        }
+      .section-title h2 {
+        font-size: 2rem;
+      }
+    }
 
-        @media (max-width: 576px) {
-            .header-text h1 {
-                font-size: 2.5rem;
-            }
+    @media (max-width: 576px) {
+      .header-text h1 {
+        font-size: 2.5rem;
+      }
 
-            .header-text p {
-                font-size: 1.1rem;
-            }
+      .header-text p {
+        font-size: 1.1rem;
+      }
 
-            .section-title h2 {
-                font-size: 1.75rem;
-            }
+      .section-title h2 {
+        font-size: 1.75rem;
+      }
 
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<main class="container">
+  <main class="container">
     <header class="header animate__animated animate__fadeIn">
-        <div class="header-text">
-            <h1>Elevate Your Academic Journey</h1>
-            <p>
-                Techno-Valley is the premier collaborative platform connecting IT students and professors across
-                Jordanian universities. Share verified content, discover resources with smart hashtags, and engage with
-                your academic community.
-            </p>
-            <div class="cta-group">
-                <a class="cta-button animate__animated animate__pulse animate__infinite animate__slow"
-                   href="login.html">
-                    <i class="fas fa-sign-in-alt mr-2"></i> Login
-                </a>
-            </div>
+      <div class="header-text">
+        <h1>Elevate Your Academic Journey</h1>
+        <p>
+          Techno-Valley is the premier collaborative platform connecting IT students and professors across Jordanian universities. Share verified content, discover resources with smart hashtags, and engage with your academic community.
+        </p>
+        <div class="cta-group">
+          <a href="login.html" class="cta-button animate__animated animate__pulse animate__infinite animate__slow">
+            <i class="fas fa-sign-in-alt mr-2" ></i>  Login
+          </a>
         </div>
-        <div class="header-image">
-            <img alt="Academic Collaboration Illustration" class="animate__animated animate__fadeInRight"
-                 src="WP_3.png"/>
-        </div>
+      </div>
+      <div class="header-image">
+        <img src="WP_3.png" alt="Academic Collaboration Illustration" class="animate__animated animate__fadeInRight" />
+      </div>
     </header>
 
     <section class="section">
-        <div class="section-title">
-            <h2>Powerful Features for Academic Success</h2>
-            <p>Designed specifically for the needs of IT students and educators in Jordan</p>
+      <div class="section-title">
+        <h2>Powerful Features for Academic Success</h2>
+        <p>Designed specifically for the needs of IT students and educators in Jordan</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+          <div class="feature-icon">
+            <i class="fas fa-user-check"></i>
+          </div>
+          <h3>Verified Academic Community</h3>
+          <p>University-authenticated access ensures content quality and academic integrity.</p>
         </div>
-        <div class="feature-grid">
-            <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
-                <div class="feature-icon">
-                    <i class="fas fa-user-check"></i>
-                </div>
-                <h3>Verified Academic Community</h3>
-                <p>University-authenticated access ensures content quality and academic integrity.</p>
-            </div>
-            <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-                <div class="feature-icon">
-                    <i class="fas fa-file-upload"></i>
-                </div>
-                <h3>Seamless Content Sharing</h3>
-                <p>Upload and organize lecture notes, summaries, and research in multiple formats.</p>
-            </div>
-            <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
-                <div class="feature-icon">
-                    <i class="fas fa-hashtag"></i>
-                </div>
-                <h3>Intelligent Hashtag System</h3>
-                <p>Course-specific tagging and advanced search for precise content discovery.</p>
-            </div>
-            <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
-                <div class="feature-icon">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                </div>
-                <h3>Role-Based Ecosystem</h3>
-                <p>Tailored interfaces for students, professors, and department administrators.</p>
-            </div>
-            <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
-                <div class="feature-icon">
-                    <i class="fas fa-laptop-code"></i>
-                </div>
-                <h3>IT-Focused Resources</h3>
-                <p>Specialized content for computer science and engineering disciplines.</p>
-            </div>
-            <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
-                <div class="feature-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <h3>Enterprise-Grade Security</h3>
-                <p>Built with Kotlin & Spring Boot for robust performance and data protection.</p>
-            </div>
+        <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+          <div class="feature-icon">
+            <i class="fas fa-file-upload"></i>
+          </div>
+          <h3>Seamless Content Sharing</h3>
+          <p>Upload and organize lecture notes, summaries, and research in multiple formats.</p>
         </div>
+        <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+          <div class="feature-icon">
+            <i class="fas fa-hashtag"></i>
+          </div>
+          <h3>Intelligent Hashtag System</h3>
+          <p>Course-specific tagging and advanced search for precise content discovery.</p>
+        </div>
+        <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+          <div class="feature-icon">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <h3>Role-Based Ecosystem</h3>
+          <p>Tailored interfaces for students, professors, and department administrators.</p>
+        </div>
+        <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+          <div class="feature-icon">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <h3>IT-Focused Resources</h3>
+          <p>Specialized content for computer science and engineering disciplines.</p>
+        </div>
+        <div class="feature-card animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Enterprise-Grade Security</h3>
+          <p>Built with Kotlin & Spring Boot for robust performance and data protection.</p>
+        </div>
+      </div>
     </section>
-</main>
+  </main>
 
-<footer class="footer">
+  <footer class="footer">
     <div class="container">
-        <p>&copy; 2025 Techno-Valley | Academic Collaboration Platform | All Rights Reserved</p>
+      <p>&copy; 2025 Techno-Valley | Academic Collaboration Platform | All Rights Reserved</p>
     </div>
-</footer>
+  </footer>
 
 </body>
 </html>

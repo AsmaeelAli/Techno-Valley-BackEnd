@@ -2,139 +2,116 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Techno-Valley</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techno Valley</title>
+
     <!-- IconScout CDN -->
-    <link href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+    <link href="./sidebar.css" rel="stylesheet">
+    <script src="sidebar.js"></script>
     <!-- Stylesheet -->
-    <link href="./style.css" rel="stylesheet">
-    <link href="WP_3.png" rel="icon" type="image/jpg">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" type="image/jpg" href="images/WP_3.png">
 </head>
+
 <body>
-<nav>
-    <div class="container nav-container">
-        <img class="logo" src="noBgColorcc.png">
+    <!-- Navbar -->
+    <nav>
+        <div class="container navbar-flex">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="images/noBgColorcc.png" alt="Logo">
+            </div>
 
-        <!-- Search Bar -->
-        <div class="search-bar">
-            <input placeholder="Search Techno-Valley..." type="text"/>
-            <button type="submit"><i class="uil uil-search"></i></button>
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <i class="uil uil-search"></i>
+                <input id="searchInput" type="search" placeholder="Search">
+                <div id="suggestionBox" class="suggestion-box"></div>
+            </div>
+
+            <!-- Placeholder for future upload or actions -->
+            <div class="create">
+                <label class="upload-button"></label>
+            </div>
         </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+
+ <!-- LEFT Sidebar -->
+    <div class="left">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <a class="menu-item" href="index.html">
+                    <span><i class="uil uil-home"></i></span>
+                    <h3>Home</h3>
+                </a>
+                <a class="menu-item" href="Explore.html">
+                    <span><i class="uil uil-compass"></i></span>
+                    <h3>Explore</h3>
+                </a>
+                <a class="menu-item" href="courses.html">
+                    <span><i class="uil uil-book-open"></i></span>
+                    <h3>Courses</h3>
+                </a>
+                <a class="menu-item" href="info.html">
+                    <span><i class="uil uil-user"></i></span>
+                    <h3>My Profile</h3>
+                </a>
+                <a class="menu-item" href="support.html">
+                    <span><i class="uil uil-question-circle"></i></span>
+                    <h3>Help & Support</h3>
+                </a>
+            </div>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">
+            <i class="uil uil-signout"></i>
+            <span>Logout</span>
+        </button>
     </div>
-</nav>
 
-<!-------------------------------- MAIN ----------------------------------->
-<main>
-    <div class="container">
-        <!----------------- LEFT -------------------->
-        <div class="left">
+            <!-- Middle Section -->
+            <div class="middle">
 
+                <!-- Create Post -->
+                <form class="create-post">
+                    <textarea id="postInput" class="custom-textarea" placeholder="What's on your mind?"></textarea>
+                    <input type="button" value="Post" class="btn btn-primary" id="postButton">
+                </form>
 
-            <!----------------- SIDEBAR -------------------->
-            <div class="sidebar">
-                <!-- General Section -->
-                <div class="sidebar-section">
+                <!-- File Upload -->
+                <input type="file" id="fileUpload" accept=".pdf, .txt" style="display: none;">
+                <label for="fileUpload" class="btn btn-primary">Upload File</label>
 
-                    <a class="menu-item active" href="index.html">
-                        <span><i class="uil uil-home"></i></span>
-                        <h3>Home</h3>
-                    </a>
-                    <a class="menu-item" href="Explore.html">
-                        <span><i class="uil uil-compass"></i></span>
-                        <h3>Explore</h3>
-                    </a>
+                <!-- Image Upload -->
+                <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                <label for="imageUpload" class="btn btn-primary">Upload Image</label>
 
-                    <a class="menu-item" href="#">
-                        <span><i class="uil uil-book-open"></i></span>
-                        <h3>Courses</h3>
-                    </a>
-
-                    <a class="menu-item" href="#">
-                        <span><i class="uil uil-file-alt"></i></span>
-                        <h3>Resources</h3>
-                    </a>
-                    <a class="menu-item" href="info.html">
-                        <span><i class="uil uil-user"></i></span>
-                        <h3>My Profile</h3>
-                    </a>
-
-                    <a class="menu-item" href="#">
-                        <span><i class="uil uil-question-circle"></i></span>
-                        <h3>Help & Support</h3>
-                    </a>
+                <!-- Posts Feed -->
+                <div id="postsContainer" class="feeds">
+                    <!-- المنشورات ستظهر هنا -->
                 </div>
 
-                <!-- Academic Section -->
-                <div class="sidebar-section">
-
-
-                </div>
-
-                <!-- Settings Section -->
-                <div class="sidebar-section">
-
-
-                </div>
             </div>
-            <!----------------- END OF SIDEBAR -------------444444------>
-
-
         </div>
+    </main>
 
-        <!----------------- MIDDLE (Main Content) -------------------->
-        <div class="middle">
+    <!-- Scripts -->
+    <script src="./jwtHelper.js"></script>
+    <script type="module" src="./index.js"></script>
+    <script>
+  function handleLogout() {
+    // حذف بيانات الجلسة
+    sessionStorage.clear();
+    localStorage.clear(); // في حال كنت تستخدم localStorage أيضًا
 
-
-            <h2 class="form-title">Create Post</h2>
-            <form id="createPostForm" name="create-post" onsubmit="return handleSubmit(event)">
-                <textarea
-                        class="post-input"
-                        name="postContent"
-                        placeholder="What's on your mind?"
-                        required
-                ></textarea>
-
-                <div class="buttons-container">
-                    <button class="post-button" type="submit">Post</button>
-                    <input
-                            accept=".pdf,.jpg,.png"
-                            id="fileInput"
-                            multiple
-                            name="files"
-                            onchange="handleFileSelect(event)"
-                            type="file"
-                    >
-                    <button
-                            class="upload-button"
-                            onclick="document.getElementById('fileInput').click()"
-                            type="button"
-                    >
-                        Upload File
-                    </button>
-                </div>
-                <div class="file-info" id="fileInfo"></div>
-                <div class="error-message" id="errorMessage"></div>
-            </form>
-
-
-            <!-- Recent Posts -->
-            <div class="feeds">
-                <!-- المنشورات ستظهر هنا -->
-            </div>
-
-        </div>
-
-        <!----------------- RIGHT (Additional Content) -------------------->
-
-</main>
-</main>
-
-<!----------------- THEME CUSTOMIZATION -------------------->
-
-</div>
-
-
-<script src="./index.js"></script>
+    // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+    window.location.href = "login.html";
+  }
+</script>
 </body>
 </html>

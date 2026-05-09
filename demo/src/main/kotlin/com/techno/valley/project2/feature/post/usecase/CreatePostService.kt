@@ -1,6 +1,7 @@
 package com.techno.valley.project2.feature.post.usecase
 
 import com.mxninja.snowflake.Snowflake
+import com.techno.valley.project2.common.exceptions.RestExceptions
 import com.techno.valley.project2.config.BannedWords
 import com.techno.valley.project2.config.security.config.FileScannerService
 import com.techno.valley.project2.config.security.model.UsersAuthentication
@@ -12,6 +13,7 @@ import com.techno.valley.project2.feature.post.model.dto.PostResponse
 import com.techno.valley.project2.feature.post.model.entity.PostEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import java.io.File
 import java.time.LocalDateTime
 import java.util.*
 
@@ -27,8 +29,10 @@ class CreatePostService(
 
     companion object {
         private val SUPPORTED_IMAGE_EXTENSIONS = listOf(".png", ".jpg", ".jpeg")
-        private val SUPPORTED_DOC_EXTENSIONS = listOf(".pdf", ".docx")
-        private const val MAX_FILE_SIZE_MB = 10
+        private val SUPPORTED_DOC_EXTENSIONS = listOf(
+            ".pdf", ".docx", ".xlsx", ".pptx", ".txt", ".zip", ".rar"
+        )
+        private const val MAX_FILE_SIZE_MB = 100
     }
 
     operator fun invoke(
@@ -40,35 +44,31 @@ class CreatePostService(
         var uploadedFilePath = ""
 
         if (file != null) {
-            val originalFilename =
-                file.originalFilename ?: throw IllegalArgumentException("The file does not contain a name")
-            val lowercaseFilename = originalFilename.lowercase()
+            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+                throw RestExceptions.Forbidden("The file size exceeds the maximum limit")
+            }
 
-            val isDocument = SUPPORTED_DOC_EXTENSIONS.any { lowercaseFilename.endsWith(it) }
-            val isImage = SUPPORTED_IMAGE_EXTENSIONS.any { lowercaseFilename.endsWith(it) }
+            val cleanFile: File = fileScannerService.scanFile(file, auth)
+                ?: throw RestExceptions.Forbidden("You want to play? Let's play")
+
+            val filename = cleanFile.name.lowercase()
+            val isDocument = SUPPORTED_DOC_EXTENSIONS.any { filename.endsWith(it) }
+            val isImage = SUPPORTED_IMAGE_EXTENSIONS.any { filename.endsWith(it) }
 
             if (!isDocument && !isImage) {
-                throw IllegalArgumentException("File type not supported")
+                cleanFile.delete()
+                throw RestExceptions.Forbidden("You want to play? Let's play")
             }
-
-            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-                throw IllegalArgumentException("The file size exceeds the maximum limit (${MAX_FILE_SIZE_MB}MB)")
-            }
-
-
-            val scanResult = fileScannerService.scanFile(file, auth)
-            if (scanResult is FileScannerService.ScanResult.Failed) {
-                throw IllegalArgumentException("File rejected: ${scanResult.message}")
-            }
-
 
             try {
-                uploadedFilePath = fileStorageService.store(file)
+                uploadedFilePath = fileStorageService.store(cleanFile)
             } catch (ex: Exception) {
-                throw RuntimeException("An error occurred while saving the file: ${ex.message}")
+                cleanFile.delete()
+                throw RuntimeException("An error occurred while saving the file: \${ex.message}")
             }
-        }
 
+            cleanFile.delete()
+        }
 
         val contentLower = request.content.trim().lowercase()
         val hashtagLower = request.hashtag.trim().lowercase()
@@ -79,7 +79,7 @@ class CreatePostService(
         }
 
         if (matchedBanned != null) {
-            throw IllegalArgumentException("Banned word used")
+            throw RestExceptions.Forbidden("Banned word used")
         }
 
         val lowercasePath = uploadedFilePath.lowercase()
