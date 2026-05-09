@@ -1,0 +1,2 @@
+ALTER TABLE users_entity
+    ADD COLUMN about_me VARCHAR(255) DEFAULT '' NULL;

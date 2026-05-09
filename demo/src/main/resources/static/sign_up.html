@@ -5,92 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    /* نفس التنسيقات كما في الكود السابق دون تغيير */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       height: 100%;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #000000, #111111);
+      background-color: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
       color: #fff;
     }
-
     .container {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(35, 34, 34, 0.8);
       border-radius: 16px;
-      padding: 30px 25px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.08);
+      padding: 40px 30px;
+      width: 400px;
+      max-width: 460px;
+      box-shadow: 0 0 40px rgba(128, 0, 128, 0.4);
       backdrop-filter: blur(15px);
     }
-
-    .sign_up_form h3 {
+    .sign_up_form {
       text-align: center;
       margin-bottom: 25px;
       font-size: 2rem;
       font-weight: bold;
-      color: #fff;
+      background: linear-gradient(to right, #a64ac9, #6a00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
     }
-
-    .input_box {
-      margin-bottom: 16px;
-    }
-
+    .input_box { margin-bottom: 18px; }
     .input_box label {
       display: block;
       margin-bottom: 6px;
       color: #ccc;
       font-size: 14px;
     }
-
-    .input_box input {
+    .input_box input,
+    .input_box select {
       width: 100%;
-      padding: 12px;
-      background: linear-gradient(to right, #f0f0f0, #ccc);
-      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border: 1px solid #444;
       border-radius: 8px;
-      color: #000;
-      font-size: 15px;
+      background-color: #222;
+      color: #fff;
+      transition: border-color 0.3s ease;
     }
-
+    .input_box input:focus,
+    .input_box select:focus {
+      outline: none;
+      border-color: #a64ac9;
+    }
     .sign_up_button {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       background: linear-gradient(to right, #8e2de2, #4a00e0);
       color: white;
       border: none;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 600;
       margin-top: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
-
     .sign_up_button:hover {
       transform: scale(1.04);
+      opacity: 0.95;
     }
-
     .sign_up {
       text-align: center;
       font-size: 14px;
       margin-top: 15px;
     }
-
     .sign_up a {
-      color: #66aaff;
+      color: #a64ac9;
       text-decoration: none;
       font-weight: 500;
     }
-
     .message {
       display: none;
       margin-top: 15px;
@@ -100,37 +95,14 @@
       font-weight: bold;
       font-size: 14px;
     }
-
-    .success {
-      background-color: #00c853;
-      color: white;
-    }
-
-    .error {
-      background-color: #d32f2f;
-      color: white;
-    }
-
+    .success { background-color: #00c853; color: white; }
+    .error { background-color: #d32f2f; color: white; }
     @media (min-width: 768px) {
-      .container {
-        padding: 40px 30px;
-      }
-
-      .sign_up_form h3 {
-        font-size: 2.4rem;
-      }
-
-      .input_box input {
-        font-size: 16px;
-      }
-
-      .sign_up_button {
-        font-size: 17px;
-      }
-
-      .sign_up {
-        font-size: 15px;
-      }
+      .container { padding: 45px 35px; }
+      .sign_up_form h3 { font-size: 2.2rem; }
+      .input_box input { font-size: 17px; }
+      .sign_up_button { font-size: 18px; }
+      .sign_up { font-size: 15px; }
     }
   </style>
 </head>
@@ -147,8 +119,18 @@
       </div>
 
       <div class="input_box">
+        <label for="university">Select University</label>
+        <select id="university" required onchange="updateEmailPlaceholder()">
+          <option value="">-- Choose your university --</option>
+          <option value="mutah">mutah University</option>
+          <option value="jadara">jadara University</option>
+          <option value="hu">Hashemite University</option>
+        </select>
+      </div>
+
+      <div class="input_box">
         <label for="email">Email Address</label>
-        <input id="email" name="email" placeholder="example@mutah.edu.jo" required type="email"/>
+        <input id="email" name="email" placeholder="example@University.edu.jo" required type="email"/>
       </div>
 
       <div class="input_box">
@@ -174,17 +156,51 @@
     }, 3000);
   }
 
+  function updateEmailPlaceholder() {
+    const university = document.getElementById("university").value;
+    const emailInput = document.getElementById("email");
+
+    switch (university) {
+      case "mutah":
+        emailInput.placeholder = "example@mutah.edu.jo";
+        break;
+      case "jadara":
+        emailInput.placeholder = "example@jadara.edu.jo or example@std.jadara.edu.jo";
+        break;
+      case "hu":
+        emailInput.placeholder = "example@hu.edu.jo";
+        break;
+      default:
+        emailInput.placeholder = "example@university.edu.jo";
+    }
+  }
+
   function handleSignup(event) {
     event.preventDefault();
 
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
+    const university = document.getElementById("university").value;
 
-    const mutahRegex = /^[0-9]+@mutah\.edu\.jo$/;
+    let emailRegex;
+    switch (university) {
+      case "mutah":
+        emailRegex = /^[a-zA-Z0-9._%+-]+@mutah\.edu\.jo$/;
+        break;
+      case "jadara":
+        emailRegex = /^[a-zA-Z0-9._%+-]+@(jadara\.edu\.jo|std\.jadara\.edu\.jo)$/;
+        break;
+      case "hu":
+        emailRegex = /^[a-zA-Z0-9._%+-]+@(hu\.edu\.jo|std\.hu\.edu\.jo)$/;
+        break;
+      default:
+        showError("❌ Please select your university.");
+        return;
+    }
 
-    if (!mutahRegex.test(email)) {
-      showError("❌ Invalid email format. Please use your university email: example@mutah.edu.jo");
+    if (!emailRegex.test(email)) {
+      showError("❌ Invalid email format for selected university.");
       return;
     }
 
@@ -199,26 +215,26 @@
         password: password,
       }),
     })
-      .then(async (response) => {
-        const contentType = response.headers.get("content-type");
-        const responseBody = contentType && contentType.includes("application/json")
-          ? await response.json()
-          : await response.text();
+    .then(async (response) => {
+      const contentType = response.headers.get("content-type");
+      const responseBody = contentType && contentType.includes("application/json")
+        ? await response.json()
+        : await response.text();
 
-        if (!response.ok) {
-          throw new Error(responseBody.message || responseBody || "❌ Failed to send verification code.");
-        }
+      if (!response.ok) {
+        throw new Error(responseBody.message || responseBody || "❌ Failed to send verification code.");
+      }
 
-        localStorage.setItem("signupEmail", email);
-        localStorage.setItem("signupname", name);
-        localStorage.setItem("signupPassword", password);
+      localStorage.setItem("signupEmail", email);
+      localStorage.setItem("signupname", name);
+      localStorage.setItem("signupPassword", password);
 
-        window.location.href = "send code.html";
-      })
-      .catch((error) => {
-        console.error("Actual error:", error);
-        showError("🚫 " + error.message);
-      });
+      window.location.href = "send code.html";
+    })
+    .catch((error) => {
+      console.error("Actual error:", error);
+      showError("❌" + error.message);
+    });
   }
 </script>
 </body>

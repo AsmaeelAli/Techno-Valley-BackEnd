@@ -1,339 +1,367 @@
-const postInput = document.getElementById("postInput");
-const postButton = document.getElementById("postButton");
-const postsContainer = document.getElementById("postsContainer");
-const imageUpload = document.getElementById("imageUpload");
-const fileUpload = document.getElementById("fileUpload");
-const searchInput = document.getElementById("searchInput");
-const userResponse = await fetch('/api');
-    const userProfile = await userResponse.json();
-let selectedImage = null;
-let selectedFile = null;
+// نسخة محسنة تمنع أي تحويل تلقائي للملفات وتفرض التحقق من الامتداد الأصلي فقط
 
-const token = localStorage.getItem("token"); // يتم تخزين التوكن في المتصفح بعد تسجيل الدخول
-const API_BASE_URL = "/api"; // غيّر الرابط إذا كان لديك دومين أو سيرفر خارجي
+let bannedWords = [];
 
-// دالة لاستخراج الهاشتاقات من النص
-function extractHashtags(text) {
-    return text.match(/#[\w\u0600-\u06FF]+/g) || [];
+fetch('./banned-words.json')
+  .then(res => res.json())
+  .then(data => {
+    bannedWords = data;
+  })
+  .catch(err => console.error("فشل تحميل الكلمات المحظورة:", err));
+
+function containsBannedWord(text) {
+  const normalizedText = text.toLowerCase();
+  return bannedWords.some(word => normalizedText.includes(word.toLowerCase()));
 }
 
-// دالة لتحويل البيانات إلى ملف
-function dataURLtoFile(dataurl, filename) {
-    let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, {type:mime});
+const allowedExtensions = ['.png', '.jpg', '.jpeg', '.pdf', '.docx', '.txt', "."];
+
+function isAllowedFile(filename) {
+  const ext = filename.substring(filename.lastIndexOf('.')).toLowerCase();
+  return allowedExtensions.includes(ext);
 }
 
-// التعامل مع رفع الصور
-imageUpload.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            selectedImage = e.target.result;
-        };
-        reader.readAsDataURL(file);
+document.addEventListener('DOMContentLoaded', function () {
+  const postInput = document.getElementById("postInput");
+  const postButton = document.getElementById("postButton");
+  const postsContainer = document.getElementById("postsContainer");
+  const imageUpload = document.getElementById("imageUpload");
+  const fileUpload = document.getElementById("fileUpload");
+  const searchInput = document.getElementById("searchInput");
+  const suggestionBox = document.getElementById('suggestionBox');
+
+  let selectedImageFile = null;
+  let selectedFileFile = null;
+  let isPosting = false;
+  const token = window.JWT.getToken();
+
+  function debounce(fn, delay) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+  }
+
+  // إخفاء صندوق الاقتراحات عند الضغط خارج الصندوق
+  document.addEventListener('click', (event) => {
+    if (!searchInput.contains(event.target) && !suggestionBox.contains(event.target)) {
+      suggestionBox.innerHTML = '';
     }
-});
+  });
 
-// التعامل مع رفع الملفات
-fileUpload.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            selectedFile = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-// عند النقر على زر "Post"
-postButton.addEventListener('click', async () => {
-    const postContent = postInput.value.trim();
-    const hashtags = extractHashtags(postContent);
-
-    if (!postContent && !selectedImage && !selectedFile) {
-        alert('يرجى كتابة منشور أو رفع صورة أو ملف قبل النشر!');
-        return;
-    }
-
-    const formData = new FormData();
-    formData.append('content', postContent);
-    formData.append('hashtags', hashtags.join(' '));
-
-    if (selectedImage) {
-        const imageFile = dataURLtoFile(selectedImage, 'image.png');
-        formData.append('image', imageFile);
-    }
-
-    if (selectedFile) {
-        const file = dataURLtoFile(selectedFile, 'file.pdf');
-        formData.append('file', file);
-    }
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/posts`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            body: formData
-        });
-
-        if (!response.ok) throw new Error('فشل في إرسال المنشور');
-
-        alert('تم نشر المنشور بنجاح!');
-        postInput.value = ''; // مسح محتوى الحقل
-        imageUpload.value = ''; // مسح محتوى الرفع
-        fileUpload.value = ''; // مسح محتوى الرفع
-        selectedImage = null;
-        selectedFile = null;
-
-        fetchPosts(); // تحديث المنشورات بعد نشر المنشور
-    } catch (error) {
-        console.error(error);
-        alert('حدث خطأ أثناء النشر. حاول مرة أخرى.');
-    }
-});
-
-// جلب المنشورات من الخادم
-async function fetchPosts(query = '') {
-    try {
-        const response = await fetch(`${API_BASE_URL}/posts/search?query=${query}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('فشل في تحميل المنشورات');
-        }
-
-        const posts = await response.json();
-        displayFilteredPosts(posts); // عرض المنشورات المسترجعة
-    } catch (error) {
-        console.error(error);
-        postsContainer.innerHTML = "<p>تعذر تحميل المنشورات.</p>"; // رسالة في حال فشل تحميل المنشورات
-    }
-}
-
-// عرض المنشورات في واجهة المستخدم
-function displayFilteredPosts(posts) {
-    postsContainer.innerHTML = '';
-    if (posts.length === 0) {
-        postsContainer.innerHTML = "<p>لا توجد منشورات.</p>";
-        return;
-    }
-
-    posts.forEach(post => {
-        const postDiv = document.createElement("div");
-        postDiv.classList.add("post");
-
-        postDiv.innerHTML = `
-            <p>${post.content}</p>
-            <p><strong>هاشتاقات:</strong> ${post.hashtags.join(' ')}</p>
-            ${post.user ? `<p><strong>الطالب:</strong> ${post.user.fullName}</p>` : ''}
-            ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Image" class="post-image">` : ''}
-            ${post.fileUrl ? `<a href="${post.fileUrl}" download>تحميل الملف</a>` : ''}
-        `;
-
-        postsContainer.appendChild(postDiv);
-    });
-}
-
-// البحث في المنشورات عند إدخال نص في حقل البحث
-searchInput.addEventListener('input', (e) => {
+  searchInput.addEventListener('input', debounce(async (e) => {
     const query = e.target.value.trim();
-    fetchPosts(query); // جلب المنشورات بناءً على النص المدخل
-});
+    if (query.length < 2) return;
 
-// جلب المنشورات عند تحميل الصفحة
-window.addEventListener('DOMContentLoaded', () => {
-    fetchPosts(); // جلب المنشورات عند تحميل الصفحة
-});
-
-
-async function fetchPosts(query = '') {
     try {
-        const response = await fetch(`${API_BASE_URL}/posts/search?query=${query}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
+      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        const suggestions = await response.json();
+        displaySearchSuggestions(suggestions);
+      }
+    } catch (error) {
+      alert('فشل في جلب الاقتراحات. تحقق من الاتصال.');
+    }
+  }, 400));
+
+  searchInput.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const hashtag = searchInput.value.trim();
+
+      try {
+        const response = await fetch(`/api/posts/hashtag?hashtag=${encodeURIComponent(hashtag)}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        if (!response.ok) {
-            throw new Error('Error fetching posts');
-        }
+        if (!response.ok) throw new Error("فشل في جلب النتائج.");
 
-        const posts = await response.json();
-        displayFilteredPosts(posts);  // Handle the posts in the frontend
-    } catch (error) {
-        console.error(error);
-        alert('Failed to fetch posts.');
+        const grouped = await response.json();
+
+        const posts = grouped.posts || [];
+        displayFilteredPosts(posts);
+
+        const experts = grouped.experts || [];
+        console.log("خبرات مطابقة:", experts);
+
+        suggestionBox.innerHTML = '';
+      } catch (error) {
+        alert(error.message);
+      }
     }
-}
+  });
 
-async function createPost(postContent, hashtags) {
+  function displaySearchSuggestions(result) {
+    suggestionBox.innerHTML = '';
+
+    if ((!result.posts || result.posts.length === 0) && (!result.experts || result.experts.length === 0)) {
+      const noResultsItem = document.createElement('div');
+      noResultsItem.textContent = 'No results found';
+      noResultsItem.className = 'suggestion-item no-results';
+      suggestionBox.appendChild(noResultsItem);
+      return;
+    }
+
+    let displayed = 0;
+
+    if (result.posts && result.posts.length > 0) {
+      const post = result.posts[0];
+      const item = document.createElement('div');
+      item.textContent = `Post : ${post.tag}`;
+      item.className = 'suggestion-item';
+      suggestionBox.appendChild(item);
+      displayed++;
+    }
+
+    if (result.experts && result.experts.length > 0 && displayed === 0) {
+      const expert = result.experts[0];
+      const item = document.createElement('div');
+      item.textContent = `User : ${expert.username}`;
+      item.className = 'suggestion-item';
+      suggestionBox.appendChild(item);
+    }
+  }
+
+  imageUpload.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file && isAllowedFile(file.name)) {
+      selectedImageFile = file;
+    } else {
+      alert("امتداد الصورة غير مدعوم");
+      imageUpload.value = '';
+    }
+  });
+
+  fileUpload.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file && isAllowedFile(file.name)) {
+      selectedFileFile = file;
+    } else {
+      alert("امتداد الملف غير مدعوم");
+      fileUpload.value = '';
+    }
+  });
+
+  postButton.addEventListener('click', async () => {
+    if (isPosting) return;
+
+    let postContent = postInput.value.trim();
+
+    if (containsBannedWord(postContent)) {
+      alert('المنشور يحتوي على كلمات غير مسموح بها.');
+      return;
+    }
+
+    const hashtagsArray = [];
+    const hashtagRegex = /#([\w\u0600-\u06FF]+)/g;
+    let match;
+    while ((match = hashtagRegex.exec(postContent)) !== null) {
+      hashtagsArray.push(match[1]);
+    }
+    postContent = postContent.replace(hashtagRegex, '').trim();
+    const validHashtags = hashtagsArray.filter(tag => tag.length > 0);
+
+    if (validHashtags.some(tag => containsBannedWord(tag))) {
+      alert('الهاشتاق يحتوي على كلمات غير مسموح بها.');
+      return;
+    }
+
+    if (!postContent) return alert('يرجى كتابة محتوى المنشور!');
+    if (validHashtags.length === 0) return alert('يرجى إضافة هاشتاق واحد على الأقل يحتوي على كلمات أو أرقام!');
+
+    const hashtags = validHashtags.join(' ');
+
+    const postData = JSON.stringify({
+      content: postContent,
+      hashtag: hashtags
+    });
+
     const formData = new FormData();
-    formData.append('content', postContent);
-    formData.append('hashtags', hashtags.join(' '));
+    formData.append('data', postData);
+    if (selectedImageFile) formData.append('file', selectedImageFile);
+    else if (selectedFileFile) formData.append('file', selectedFileFile);
 
+    isPosting = true;
+    postButton.textContent = 'جاري النشر...';
+    postButton.disabled = true;
+
+try {
+  const response = await fetch(`/api/posts/create`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${token}` },
+    body: formData
+  });
+
+  if (!response.ok) {
+    const contentType = response.headers.get("content-type");
+    const result = contentType && contentType.includes("application/json")
+      ? await response.json()
+      : await response.text();
+    throw new Error(result.message || result || 'حدث خطأ أثناء النشر.');
+  }
+
+  const result = await response.json();
+
+  alert('تم نشر المنشور بنجاح!');
+  postInput.value = '';
+  imageUpload.value = '';
+  fileUpload.value = '';
+  selectedImageFile = null;
+  selectedFileFile = null;
+  fetchPosts();
+} catch (error) {
+  alert(`⚠️ ${error.message}`);
+}
+
+     finally {
+      isPosting = false;
+      postButton.textContent = 'نشر';
+      postButton.disabled = false;
+    }
+  });
+
+  async function fetchPosts() {
     try {
-        const response = await fetch(`${API_BASE_URL}/posts`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-            body: formData
-        });
+      const response = await fetch(`/api/posts/all`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
 
-        if (!response.ok) {
-            throw new Error('Failed to create post');
-        }
+      if (!response.ok) {
+        postsContainer.innerHTML = "<p>لا توجد منشورات لعرضها.</p>";
+        return;
+      }
 
-        alert('Post created successfully!');
-        fetchPosts();  // Refresh the posts after creating a new one
+      const posts = await response.json();
+      displayFilteredPosts(posts);
     } catch (error) {
-        console.error(error);
-        alert('Error creating post');
+      postsContainer.innerHTML = "<p>حدث خطأ أثناء تحميل المنشورات.</p>";
     }
+  }
+
+function displayFilteredPosts(posts) {
+  postsContainer.innerHTML = '';
+
+  if (posts.length === 0) {
+    postsContainer.innerHTML = "<p>لا توجد منشورات لعرضها.</p>";
+    return;
+  }
+
+  posts.reverse().forEach(post => {
+    const postElement = document.createElement('div');
+    postElement.classList.add('feed');
+    postElement.innerHTML = `
+      <div class="head">
+        <div class="user">
+          <div class="profile-photo" style="width: 50px; height: 50px; border-radius: 50%; background: #ccc;">
+            <img src="${post.profileUrl}">
+          </div>
+          <div class="info">
+            <h3>${post.username}</h3>
+            <small>${post.university}</small>
+          </div>
+        </div>
+        <span class="edit"><i class="uil uil-ellipsis-h"></i></span>
+      </div>
+      <div class="caption">
+        <p>${post.content}</p>
+        <div class="hashtags" style="color: #3498db;">${post.hashtag || ''}</div>
+      </div>
+      <div class="post-media">
+        ${post.imageUrl ? `<img src="${post.imageUrl}" class="post-image">` : ""}
+        ${post.fileUrl ? renderFilePreview(post.fileUrl) : ""}
+      </div>
+      <div class="action-buttons">
+        <button class="uil uil-heart ${post.isLiked ? 'active-like' : ''}" onclick="toggleLike(this, '${post.id}')"></button>
+        <span class="likes-count">${post.numberOfLikes}</span>
+        <button class="uil uil-bookmark-full ${post.isSaved ? 'active-save' : ''}" onclick="toggleSave(this, '${post.id}')"></button>
+      </div>`;
+    postsContainer.appendChild(postElement);
+  });
 }
-document.getElementById('profile-name').textContent = `name: ${userProfile.name}`;
-    document.getElementById('profile-id').textContent = userProfile.id;
-    document.getElementById('profile-role').textContent = userProfile.role;
-    document.getElementById('profile-email').textContent = userProfile.email;
-    document.getElementById('profile-university').textContent = userProfile.university;
-    
-    // الأزرار to post//////////////
-    document.getElementById('post-btn').addEventListener('click', async () => {
 
-        const response = await fetch('/api');
-    
-        const posts = await response.json();
-        const contentCard = document.getElementById('content-card');
-        contentCard.innerHTML = `
-            <h3>المنشورات</h3>
-            <ul>
-                ${posts.map(post => `<li>${post.content} - <strong>${post.isLiked ? 'Liked' : 'Not Liked'}</strong> - <strong>${post.isSaved ? 'Saved' : 'Not Saved'}</strong></li>`).join('')}
-            </ul>
-        `;
-    });
-/////////////to like
-    document.getElementById('like-btn').addEventListener('click', async () => {
+// دالة جديدة لعرض معاينة الملف حسب الامتداد
+function renderFilePreview(fileUrl) {
+  const ext = fileUrl.split('.').pop().toLowerCase();
 
-        const response = await fetch('/api', { method: 'POST' });
-        if (response.ok) {
-            const contentCard = document.getElementById('content-card');
-            contentCard.innerHTML = '<p>تم الإعجاب بالمنشور.</p>';
-        }
-    });
-///////////// to seved
-    document.getElementById('saved-btn').addEventListener('click', async () => {
+  if (ext === 'pdf') {
+    return `
+      <iframe src="${fileUrl}#toolbar=0" type="application/pdf" width="100%" height="300px" style="border: none; border-radius: 8px; margin-top: 10px;"></iframe>
+    `;
+  }
 
-        const response = await fetch('/api', { method: 'POST' });
-        if (response.ok) {
-            const contentCard = document.getElementById('content-card');
-            contentCard.innerHTML = '<p>تم حفظ المنشور.</p>';
-        }
-    });
-});
-////////////////////////////////// كارد الخبرات///////////////////////
-document.getElementById("experience-form").addEventListener("submit", async function (e) {
-    e.preventDefault();
-    const input = document.getElementById("experience-input");
-    const experienceText = input.value.trim();
+  if (['txt', 'docx'].includes(ext)) {
+    return `
+      <div style="background: #f0f2f5; border: 1px solid #ccc; padding: 16px; border-radius: 10px; display: flex; align-items: center; gap: 15px; margin-top: 10px;">
+        <div style="font-size: 2rem;">📄</div>
+        <div style="flex-grow: 1;">
+          <div style="font-weight: bold;">ملف ${ext.toUpperCase()}</div>
+        </div>
+        <a href="${fileUrl}" target="_blank" style="background: #3498db; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none;">
+          تحميل
+        </a>
+      </div>
+    `;
+  }
 
-    if (experienceText === "") return;
+  return `<a href="${fileUrl}" target="_blank" class="file-link">📁 تحميل الملف</a>`;
+}
 
-    const response = await fetch("/api", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            userId: "120212211005", // يمكن تغييره بناءً على المستخدم الحالي عدلها يا اسماعيل انو حسب اليوزر الحالي
-            experience: experienceText
-        })
-    });
 
-    if (response.ok) {
-        const li = document.createElement("li");
-        li.textContent = experienceText;
-        document.getElementById("experience-list").appendChild(li);
-        input.value = "";
-    } else {
-        alert("فشل في حفظ الخبرة");
-    }
-});
-//////////////// عرض الخبرات ////////////
-const userId = "120212211005"; // يمكن ربطها من الباك اند عند تسجيل الدخول
+  window.toggleLike = async function (button, postId) {
+    if (!postId) return alert('مفقود معرف المنشور');
 
-async function loadExperiences() {
+    const isActive = button.classList.contains('active-like');
+
     try {
-        const res = await fetch(`/api${userId}`);
-        if (!res.ok) throw new Error("Error");
-        const experiences = await res.json();
+      const response = await fetch(`/api/likes/toggle?postId=${postId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
 
-        const list = document.getElementById("experience-list");
-        list.innerHTML = ""; // مسح القديم
-
-        experiences.forEach(exp => {
-            const li = document.createElement("li");
-            li.textContent = exp;
-            list.appendChild(li);
-        });
-    } catch (err) {
-        console.error(err);
+      if (response.ok) {
+        button.classList.toggle('active-like');
+        const postElement = button.closest('.feed');
+        const likesCountElement = postElement.querySelector('.likes-count');
+        let currentLikes = parseInt(likesCountElement.textContent);
+        likesCountElement.textContent = isActive ? currentLikes - 1 : currentLikes + 1;
+      } else {
+        const msg = await response.text();
+        alert(`حدث خطأ أثناء تحديث الإعجاب: ${msg}`);
+      }
+    } catch (error) {
+      alert(`حدث خطأ: ${error.message}`);
     }
-}
-//create post
-function handleFileSelect(event) {
-    const files = event.target.files;
-    const fileInfo = document.getElementById('fileInfo');
-    
-    if (files.length > 0) {
-        const fileNames = Array.from(files).map(file => file.name).join(', ');
-        fileInfo.textContent = `Selected files: ${fileNames}`;
-    } else {
-        fileInfo.textContent = '';
+  };
+
+  window.toggleSave = async function (button, postId) {
+    if (!postId) return alert('مفقود معرف المنشور');
+
+    try {
+      const response = await fetch(`/api/saves/toggle?postId=${postId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        button.classList.toggle('active-save');
+      } else {
+        const msg = await response.text();
+        alert(`حدث خطأ أثناء تحديث الحفظ: ${msg}`);
+      }
+    } catch (error) {
+      alert(`حدث خطأ: ${error.message}`);
     }
-}
+  };
 
-function handleSubmit(event) {
-    event.preventDefault();
-    const form = document.getElementById('createPostForm');
-    const postText = form.postContent.value;
-    const files = document.getElementById('fileInput').files;
-    const errorMessage = document.getElementById('errorMessage');
-    
-    if (postText.trim() === '' && files.length === 0) {
-        errorMessage.style.display = 'block';
-        errorMessage.textContent = 'Please enter some text or select files to post';
-        return false;
-    }
-
-    // Here you would typically send the data to your server
-    // For demonstration, we'll create a FormData object
-    const formData = new FormData(form);
-    
-    // Log the form data (for demonstration)
-    console.log('Post text:', postText);
-    console.log('Files:', files);
-    
-    // Clear the form
-    form.reset();
-    document.getElementById('fileInfo').textContent = '';
-    errorMessage.style.display = 'none';
-    
-    alert('Post created successfully!');
-    return false;
-}
-
-// عند تحميل الصفحة
-window.addEventListener("DOMContentLoaded", () => {
-    loadExperiences();
+  fetchPosts();
 });

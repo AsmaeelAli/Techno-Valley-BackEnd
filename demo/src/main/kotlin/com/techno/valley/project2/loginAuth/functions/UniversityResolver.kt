@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UniversityResolver {
-    operator fun invoke (email: String): String {
+    operator fun invoke(email: String): String {
         val domain = email.substringAfter("@")
         return when (domain) {
             "mutah.edu.jo" -> "Mutah University"

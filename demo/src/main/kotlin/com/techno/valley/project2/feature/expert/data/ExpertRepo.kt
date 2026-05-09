@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ExpertRepo: JpaRepository<ExpertEntity, ID>{
+interface ExpertRepo : JpaRepository<ExpertEntity, ID> {
     fun findAllByUserId(userId: ID): List<ExpertEntity>
     fun findByUserId(userId: ID): ExpertEntity?
     fun findByExperienceContainingIgnoreCase(text: String): List<ExpertEntity>

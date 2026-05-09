@@ -1,10 +1,10 @@
 package com.techno.valley.project2.feature.likes.model.dto
 
 import com.techno.valley.project2.utily.ID
-import java.time.LocalDateTime
-import java.util.UUID
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
+import java.util.*
 
 @Component
 class UserActionManager {
@@ -28,7 +28,7 @@ class UserActionManager {
         val updatedUserAction = userAction?.let {
             when (actionType) {
                 "like" -> it.copy(like = it.like + 1)
-                "favorite" -> it.copy(save = it.save + 1)
+                "save" -> it.copy(save = it.save + 1)
                 else -> it
             }
         } ?: UserAction(1, 0, currentDate.plusDays(2))

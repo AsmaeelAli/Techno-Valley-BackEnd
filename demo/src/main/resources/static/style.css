@@ -19,7 +19,7 @@
 
     --border-radius: 2rem;
     --card-border-radius: 1rem;
-    --btn-padding: 0.6rem 2rem;
+    --btn-padding: 0.4rem 1.5rem;
     --search-padding: 0.6rem 1rem;
     --card-padding: 1rem;
 
@@ -44,43 +44,26 @@ body {
     background: var(--color-light);
     overflow-x: hidden;
 }
-
+/*logo*/
+.logo
+{width: 160px;}
 /* =============== General Style ============== */
 .container {
     width: 80%;
     margin: 0 auto;
 }
-/* Search Bar -->*/
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #f0f2f5;
-    border-radius: 30px;
-    padding: 5px 10px;
-  }
-  
-  .search-bar input {
-    border: none;
-    outline: none;
-    padding: 8px 12px;
-    border-radius: 30px;
-    background: transparent;
-    width: 200px;
-  }
-  
-  .search-bar button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: #333;
-  }
+
+.profile-photo {
+    width: 2.7rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
 
 .btn {
     display: inline-block;
@@ -91,7 +74,7 @@ body {
     transition: all 300ms ease;
     font-size: 0.9rem;
 }
-.logo{width: 160PX;}
+
 .btn:hover {
     opacity: 0.8;
 }
@@ -99,7 +82,6 @@ body {
 .btn-primary {
     background: var(--color-primary);
     color: var(--color-white);
-    width: auto;
 }
 
 .text-bold {
@@ -127,7 +109,20 @@ nav .container {
 
 }
 
+.search-bar {
+    background: var(--color-light);
+    border-radius: var(--border-radius);
+    
+    padding: var(--search-padding);
+}
 
+.search-bar input[type="search"] {
+    background: transparent;
+    width: 30vw;
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    color: rgb(0, 0, 0);
+}
 
 nav .search-bar input[type="search"]::placeholder {
     color: var(--color-grey);
@@ -138,6 +133,9 @@ nav .create {
     align-items: center;
     gap: 2rem;
 }
+
+
+
 
 /* =============== Main ============== */
 main {
@@ -169,90 +167,36 @@ main .container .left .profile {
     width: 100%;
 }
 
-/* =============== Sidebar ============== */
-.left .sidebar {
-    margin-top: 1rem;
-    background: var(--color-white);
-    border-radius: var(--card-border-radius);
-}
-
-.left .sidebar .menu-item {
-    display: flex;
-    align-items: center;
-    height: 4rem;
-    cursor: pointer;
-    transition: all 300ms ease;
-    position: relative;
-}
-
-.left .sidebar .menu-item:hover {
-    background: var(--color-light);
-}
-
-.left .sidebar i {
-    font-size: 1.4rem;
-    color: var(--color-grey);
-    margin-left: 2rem;
-    position: relative;
-}
-
-.left .sidebar i .notification-count {
-    background: var(--color-danger);
-    color: white;
-    font-size: 0.7rem;
-    width: fit-content;
-    border-radius: 0.8rem;
-    padding: 0.1rem 0.4rem;
-    position: absolute;
-    top: -0.2rem;
-    right: -0.3rem;
-}
-
-.left .sidebar h3 {
-    margin-left: 1.5rem;
-    font-size: 1rem;
-}
-
-.left .sidebar .active {
-    background: var(--color-light);
-}
-
-.left .sidebar .active i,
-.left .sidebar .active h3 {
-    color: var(--color-primary);
-}
-
-.left .sidebar .active::before {
-    content: "";
-    display: block;
-    width: 0.5rem;
-    height: 100%;
-    position: absolute;
-    background: var(--color-primary);
-}
-
-.left .sidebar .menu-item:first-child.active {
-    border-top-left-radius: var(--card-border-radius);
-    overflow: hidden;
-}
-
-.left .sidebar .menu-item:last-child.active {
-    border-bottom-left-radius: var(--card-border-radius);
-    overflow: hidden;
-}
-
-.left .btn {
-    margin-top: 1rem;
-    width: 100%;
-    text-align: center;
-    padding: 1rem 0;
-    margin-bottom: 0.7rem;
-}
 
 
 /* =============== Middle ============== */
 
 /* =============== Create Post ============== */
+.custom-textarea {
+    width: 100%;
+    min-height: 20px;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-light);
+    background-color: var(--color-white);
+    color: var(--color-dark);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    resize: vertical; /* يسمح بتغيير الارتفاع فقط */
+    transition: border-color 0.3s ease;
+}
+
+.custom-textarea::placeholder {
+    color: var(--color-grey);
+}
+
+.custom-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 6px var(--color-primary);
+}
+
+
 .middle .create-post {
     width: 100%;
     display: flex;
@@ -293,7 +237,11 @@ main .container .left .profile {
     gap: 1rem;
 }
 
-
+.middle .feed .photo {
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    margin: 0.7rem 0;
+}
 
 .middle .feed .action-buttons {
     display: flex;
@@ -303,12 +251,27 @@ main .container .left .profile {
     margin: 0.6rem 0;
 }
 
+.middle .liked-by {
+    display: flex;
+}
 
+.middle .liked-by span {
+    width: 1.4rem;
+    height: 1.4rem;
+    display: block;
+    border-radius:50%;
+    overflow: hidden;
+    border: 2px solid var(--color-white);
+    margin-left: -0.6rem;
+}
 
+.middle .liked-by span:first-child {
+    margin: 0;
+}
 
-
-
-
+.middle .liked-by p {
+    margin-left: 0.5rem;
+}
 
 /* =============== Right ============== */
 main .container .right {
@@ -319,20 +282,6 @@ main .container .right {
 }
 
 
-/* =============== Theme Customization ============== */
-
-
-/* Sidebar Sections */
-.sidebar-section {
-    margin-bottom: 2rem;
-}
-
-.sidebar-section h4 {
-    color: var(--color-grey);
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-}
 
 
 
@@ -341,13 +290,13 @@ main .container .right {
     background: var(--color-light);
     transition: all 300ms ease;
 }
-
 /* Trending Hashtags */
 .trending-hashtags {
     background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-bottom: 1rem;
+     margin-top: 1rem;
 }
 
 .trending-hashtags h4 {
@@ -421,7 +370,11 @@ main .container .right {
     margin-bottom: 1rem;
 }
 
-
+.top-contributors ul li .profile-photo {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 1rem;
+}
 
 .top-contributors ul li .info h5 {
     font-size: 1rem;
@@ -431,98 +384,32 @@ main .container .right {
     font-size: 0.9rem;
     color: var(--color-grey);
 }
-
 /* Create Post Form */
-
-.post-container {
-    background: white;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 8px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-}
-
-.form-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #1c1e21;
-    text-align: center;
-}
-
-#createPostForm {
-    width: 100%;
-}
-
-.post-input {
-    width: 100%;
-    min-height: 100px;
-    border: 1px solid #e4e6eb;
-    border-radius: 6px;
-    resize: none;
-    padding: 10px;
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-.post-input:focus {
-    outline: none;
-    border-color: #1877f2;
-}
-
-.buttons-container {
+.create-post {
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 1rem;
 }
 
-.post-button, .upload-button {
-    flex: 1;
-    padding: 10px;
+.create-post input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--color-light);
+    border-radius: var(--border-radius);
+}
+
+.create-post input[type="button"] {
+    background: var(--color-primary);
+    color: var(--color-white);
     border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.2s;
 }
-
-.post-button {
-    background-color: #1877f2;
-    color: white;
-}
-
-.post-button:hover {
-    background-color: #166fe5;
-}
-
-.upload-button {
-    background-color: #e4e6eb;
-    color: #050505;
-}
-
-.upload-button:hover {
-    background-color: #d8dadf;
-}
-
-.file-info {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #65676b;
-    padding: 5px;
-}
-
-#fileInput {
-    display: none;
-}
-
-.error-message {
-    color: #dc3545;
-    font-size: 14px;
-    margin-top: 5px;
-    display: none;
-}
-
 
 /* Feeds Section */
 .feeds {
@@ -590,8 +477,23 @@ main .container .right {
 .feed .interaction-buttons span:hover {
     color: var(--color-primary);
 }
+.feed .photo img {
+    width: 100%;            /* امتداد كامل بعرض الحاوية */
+    max-width: 600px;       /* أقصى عرض معقول */
+    height: auto;           /* يحافظ على نسبة الأبعاد */
+    display: block;
+    border-radius: var(--card-border-radius);
+    object-fit: cover;      /* يغطي الحاوية مع قص الأجزاء الزائدة */
+    max-height: 400px;      /* ارتفاع أقصى لضبط العرض */
+}
 
-
+/* إذا تحتاج تقييد عرض الحاوية نفسها */
+.feed .photo {
+    max-width: 600px;       /* نفس الحد الأقصى للعرض */
+    margin: 1rem 0;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+}
 
 /* الملفات في المنشورات */
 .feed .file {
@@ -609,7 +511,6 @@ main .container .right {
 .feed .file a:hover {
     text-decoration: underline;
 }
-
 /* Activity Posts */
 .activity-posts {
     display: flex;
@@ -637,7 +538,25 @@ main .container .right {
     font-size: 0.8rem;
 }
 
-/* =================
+    .active-like {
+        color: red !important;
+    }
+
+    .active-save {
+        color: blue !important;
+    }
+
+    .action-buttons button {
+        font-size: 1.6rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+
+
+/* ================= 
 MEDIA QUERIES FOR SMALL LAPTOP AND BIG TABLETS 
 ==================== */
 
@@ -647,7 +566,7 @@ MEDIA QUERIES FOR SMALL LAPTOP AND BIG TABLETS
     }
 
     main .container {
-        grid-template-columns: 5rem 1fr;
+        grid-template-columns: 5rem auto 30vw;
         gap: 1rem;
     }
 
@@ -683,161 +602,41 @@ MEDIA QUERIES FOR SMALL TABLETS AND MOBILE PHONES
     }
 
     main .container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 0 auto 5rem;
+        gap: 0;
     }
-    main .container .left,
+
+    main .container .left {
+        grid-column: 3/4;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+    }
+
+    /* Notification Popup */
+    .left .notifications-popup { 
+        position: absolute;
+        left: -20rem;
+        width: 20rem;
+    }
+
+    .left .notifications-popup::before {
+        display: absolute;
+        top: 1.3rem;
+        left: calc(20rem - 0.6rem);
+        display: block;
+    }
+
+    main .container .middle {
+        grid-column: 1/3;
+    }
+
     main .container .right {
         display: none;
     }
-    
-    .experience-section {
-        position: static;
-        width: 100%;
-        margin-top: 1rem;
+
+    .customize-theme .card {
+        width: 80vw; 
     }
-
-   
-   
-}
-
-
-.middle .create-post input[type="text"] {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid var(--color-light);
-    border-radius: var(--border-radius);
-}
-
-.feed {
-    font-size: 0.85rem;
-    padding: 1rem;
-}
-
-/* Adjust image and file display for mobile */
-.feed .file a {
-    font-size: 0.8rem;
-}
-/* تنسيق مركز الكارد */
-.profile-page .middle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 40px;
-  }
-  
-  /* كارد البيانات */
-  .profile-page .info-card {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    display: inline-block;
-    width: 400px;
-    height: 200px;
-    margin-bottom: 20px; /* مساحة بين كارد البيانات والأزرار */
-  }
-  
-  /* تنسيق العنوان */
-  .profile-page .info h2 {
-    margin: 0 0 0.75rem;
-    font-size: 1rem;
-    color: #222;
-    text-align: center;
-  }
-  
-  /* قائمة البيانات */
-  .profile-page .info-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 0.85rem;
-    color: #444;
-  }
-  
-  /* الأزرار أسفل كارد البيانات */
-  .profile-page .action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px; /* مساحة بين الأزرار وكارد المحتوى */
-  }
-  
-  .profile-page .action-btn {
-    background-color: var(--color-primary);
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-  }
-  
-  .profile-page .action-btn:hover {
-    background-color: #005fa3;
-  }
-  
-  /* كارد المحتوى الذي يظهر أسفل الأزرار */
-  .profile-page .content-card {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    width: var(--square-size);
-    margin-top: 20px;
-    text-align: center;
-  }
-  /************************* كارت الخبرات والبوتوم*****************************/
-  .experience-section {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    width: 270px;
-}
-
-.experience-card {
-    background: var(--color-white);
-    padding: 1rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.experience-card h3 {
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-#experience-form {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-#experience-form input {
-    flex: 1;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
-#experience-form button {
-    background: var(--color-primary);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 0.5rem 0.8rem;
-    cursor: pointer;
-}
-
-#experience-form button:hover {
-    background: #0056b3;
-}
-
-#experience-list li {
-    background: #f1f1f1;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 6px;
-    font-size: 0.9rem;
 }
 

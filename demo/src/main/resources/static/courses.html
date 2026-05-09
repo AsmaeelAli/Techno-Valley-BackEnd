@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Techno Valley</title>
+  <!-- IconScout CDN -->
+  <link href="./sidebar.css" rel="stylesheet">
+  <script src="sidebar.js"></script>
+  
+  <link href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css" rel="stylesheet" />
+  <!-- Stylesheet -->
+  <link rel="icon" type="image/jpg" href="images/WP_3.png" />
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+    :root {
+      --primary-color-hue: 252;
+      --dark-color-lightness: 17%;
+      --light-color-lightness: 95%;
+      --white-color-lightness: 100%;
+      --color-white: hsl(252, 30%, var(--white-color-lightness));
+      --color-light: hsl(252, 30%, var(--light-color-lightness));
+      --color-grey: hsl(252, 15%, 65%);
+      --color-primary: hsl(var(--primary-color-hue), 75%, 60%);
+      --color-secondary: hsl(252, 100%, 90%);
+      --color-success: hsl(120, 95%, 65%);
+      --color-danger: hsl(0, 95%, 65%);
+      --color-dark: hsl(252, 30%, var(--dark-color-lightness));
+      --color-black: hsl(252, 30%, 10%);
+      --border-radius: 2rem;
+      --card-border-radius: 1rem;
+      --btn-padding: 0.6rem 2rem;
+      --search-padding: 0.6rem 1rem;
+      --card-padding: 1rem;
+      --sticky-top-left: 5.4rem;
+      --sticky-top-right: -18rem;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      outline: 0;
+      box-sizing: border-box;
+      text-decoration: none;
+      list-style: none;
+      border: none;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--color-dark);
+      background: var(--color-light);
+      overflow-x: hidden;
+    }
+
+    /* =============== General Style ============== */
+    .container {
+      width: 80%;
+         
+      
+    }
+
+    /* =============== Navbar ============== */
+    nav {
+      width: 100%;
+      background: var(--color-white);
+      padding: 0.7rem 0;
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      
+      
+    }
+
+    nav .search-bar input[type="search"]::placeholder {
+      color: var(--color-grey);
+    }
+
+    /* =============== Main ============== */
+    main {
+      position: relative;
+      top: 5.4rem;
+      
+    }
+
+    main .container {
+      display: grid;
+      grid-template-columns: 18vw auto 20vw; /* 3 columns now */
+      column-gap: 2rem;
+      position: relative;
+         margin-bottom: 1rem;
+     margin-top: 1rem;
+    }
+
+    
+    /* =============== Right Sidebar (New) ==============*/
+    main .container .right {
+      height: max-content;
+      position: sticky;
+      top: var(--sticky-top-right);
+      max-width: 20vw;
+    }
+
+    /* =============== Middle Content ============== */
+    .middle {
+      background: var(--color-white);
+      padding: 2rem 2.5rem;
+      border-radius: var(--card-border-radius);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .middle h2 {
+      color: var(--color-primary);
+      font-weight: 600;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--color-primary);
+      padding-bottom: 0.5rem;
+    }
+
+    #courses-container .course-card {
+      background: #f9f9fb;
+      padding: 1.2rem 1.5rem;
+      border-radius: 0.8rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+    }
+
+    #courses-container .course-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    #courses-container h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.25rem;
+      color: var(--color-primary);
+    }
+
+    .yt-button {
+      background: var(--color-primary);
+      color: var(--color-white);
+      border-radius: 0.5rem;
+      font-weight: 600;
+      padding: 0.5rem 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .yt-button:hover {
+      background: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    .logo {
+      width: 160px;
+    }
+
+    /* Responsive tweaks */
+    @media screen and (max-width: 1200px) {
+      .container {
+        
+        width: 96%;
+      
+      }
+      main .container {
+        grid-template-columns: 5rem 1fr;
+        gap: 1rem;
+      }
+      .left {
+        width: 5rem;
+        z-index: 5;
+        
+     
+      }
+      main .container .left .profile {
+        display: none;
+      }
+      .sidebar h3 {
+        display: none;
+      }
+      .left .btn {
+        display: none;
+        
+      }
+      main .container .right {
+        display: none; /* hide right sidebar on smaller screens */
+      }
+    }
+
+    @media screen and (max-width: 992px) {
+      nav .search-bar {
+        display: none;
+      }
+      main .container {
+        grid-template-columns: 1fr;
+      }
+      main .container .left,
+      main .container .right {
+        
+        display: none;
+      }
+    }
+.left
+{ margin-bottom: -1rem;
+     margin-top: -1rem;}
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <img src="images/noBgColorcc.png" alt="Logo" class="logo" />
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <div class="container">
+      <!-- LEFT Sidebar -->
+     <!-- LEFT Sidebar -->
+    <div class="left">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <a class="menu-item" href="index.html">
+                    <span><i class="uil uil-home"></i></span>
+                    <h3>Home</h3>
+                </a>
+                <a class="menu-item" href="Explore.html">
+                    <span><i class="uil uil-compass"></i></span>
+                    <h3>Explore</h3>
+                </a>
+                <a class="menu-item" href="courses.html">
+                    <span><i class="uil uil-book-open"></i></span>
+                    <h3>Courses</h3>
+                </a>
+                <a class="menu-item" href="info.html">
+                    <span><i class="uil uil-user"></i></span>
+                    <h3>My Profile</h3>
+                </a>
+                <a class="menu-item" href="support.html">
+                    <span><i class="uil uil-question-circle"></i></span>
+                    <h3>Help & Support</h3>
+                </a>
+            </div>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">
+            <i class="uil uil-signout"></i>
+            <span>Logout</span>
+        </button>
+    </div>
+
+      <!-- MIDDLE (Main Content) -->
+      <div class="middle">
+        <h2 style="margin-bottom: 1rem;">Available Courses</h2>
+        <div id="courses-container"></div>
+      </div>
+
+      <!-- RIGHT (Search Bar) NEW -->
+      <div class="right">
+        <div class="search-bar" style="background: var(--color-white); padding: 1rem; border-radius: var(--card-border-radius); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <h3 style="margin-bottom: 1rem; color: var(--color-primary);">Search Courses</h3>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search courses..."
+            style="width: 100%; padding: 0.6rem 1rem; border-radius: 0.5rem; border: 1px solid var(--color-grey); font-size: 1rem;"
+          />
+        </div>
+      </div>
+    </div>
+  </main>
+  
+
+  <script>
+
+  function handleLogout() {
+    // حذف بيانات الجلسة
+    sessionStorage.clear();
+    localStorage.clear(); // في حال كنت تستخدم localStorage أيضًا
+
+    // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+    window.location.href = "login.html";
+  }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const API_URL = "https://yourdomain.com/api/courses"; // عدل الرابط هنا لو حبيت تجيب من API حقيقي
+      const container = document.getElementById("courses-container");
+      const searchInput = document.getElementById("search-input");
+
+      // بيانات تجريبية مؤقتة
+      const sampleCourses = [
+        { title: "HTML Basics", url: "https://www.youtube.com/watch?v=UB1O30fR-EE" },
+        { title: "CSS Fundamentals", url: "https://www.youtube.com/watch?v=yfoY53QXEnI" },
+        { title: "JavaScript Intro", url: "https://www.youtube.com/watch?v=W6NZfCO5SIk" }
+      ];
+
+      let coursesList = sampleCourses; // تخزين الدورات كلها
+
+      function displayCourses(courses) {
+        container.innerHTML = ""; // تنظيف الحاوية قبل الإضافة
+
+        if (courses.length === 0) {
+          container.innerHTML = "<p>No courses found.</p>";
+          return;
+        }
+
+        courses.forEach(course => {
+          const courseDiv = document.createElement("div");
+          courseDiv.className = "course-card";
+
+          const title = document.createElement("h3");
+          title.textContent = course.title;
+
+          const button = document.createElement("button");
+          button.textContent = "Watch Course";
+          button.className = "yt-button";
+          button.onclick = () => {
+            window.open(course.url, "_blank");
+          };
+
+          courseDiv.appendChild(title);
+          courseDiv.appendChild(button);
+          container.appendChild(courseDiv);
+        });
+      }
+
+      // عرض الدورات بدايةً
+      displayCourses(coursesList);
+
+      // فلترة الدورات عند الكتابة في شريط البحث
+      searchInput.addEventListener("input", (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filtered = coursesList.filter(course =>
+          course.title.toLowerCase().includes(searchTerm)
+        );
+        displayCourses(filtered);
+      });
+
+      // لو عندك API حقيقي، فعّل هذا الجزء عوضاً عن البيانات التجريبية:
+      /*
+      fetch(API_URL)
+        .then(res => res.json())
+        .then(courses => {
+          coursesList = courses;
+          displayCourses(coursesList);
+        })
+        .catch(err => {
+          container.innerHTML = "<p>Failed to load courses.</p>";
+          console.error(err);
+        });
+      */
+    });
+  </script>
+  
+</body>
+</html>

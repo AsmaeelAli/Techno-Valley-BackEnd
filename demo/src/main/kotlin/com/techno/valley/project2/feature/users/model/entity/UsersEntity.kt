@@ -10,9 +10,11 @@ import java.time.LocalDateTime
 data class UsersEntity(
     @Id
     val id: Long,
-    val name: String,
-    val password: String,
-    val email: String,
-    val verificationCode: String,
-    val createdAt: LocalDateTime,
+    var name: String,
+    var password: String,
+    var email: String,
+    var verificationCode: String,
+    var enable: Boolean,
+    var createdAt: LocalDateTime,
+    var aboutMe: String,
 )

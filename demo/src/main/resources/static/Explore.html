@@ -8,71 +8,60 @@
     <!-- IconScout CDN -->
     <link href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css" rel="stylesheet">
     <!-- Stylesheet -->
+    <link href="./sidebar.css" rel="stylesheet">
+    <script src="sidebar.js"></script>
     <script src="./index.js"></script>
     <link href="./style.css" rel="stylesheet">
-    <link rel="icon" type="image/jpg" href="WP_3.png">
+    <link rel="icon" type="image/jpg" href="images/WP_3.png">
 </head>
 <body>
     <nav>
-        <div class="container nav-container">
-          <img src="noBgColorcc.png" class="logo">
+
+    <div class="container">
+        <img src="images\noBgColorcc.png" class="logo">
+            
       
-          <!-- Search Bar -->
-          <div class="search-bar">
-            <input type="text" placeholder="Search Techno-Valley..." />
-            <button type="submit"><i class="uil uil-search"></i></button>
-          </div>
-        </div>
-      </nav>
+        
+    </div>
+
+       <!---->
+
+</nav>
 
 <!-------------------------------- MAIN ----------------------------------->
 <main>
     <div class="container">
-        <!----------------- LEFT -------------------->
-        <div class="left">
-          
-
-            <!----------------- SIDEBAR -------------------->
-            <div class="sidebar">
-                <!-- General Section -->
-                <div class="sidebar-section">
-
-                    <a class="menu-item " href="index.html">
-                        <span><i class="uil uil-home"></i></span>
-                        <h3>Home</h3>
-                    </a>
-                    <a class="menu-item active" href="Explore.html">
-                        <span><i class="uil uil-compass"></i></span>
-                        <h3>Explore</h3>
-                    </a>
-                    
-                    <a class="menu-item" href="#">
-                        <span><i class="uil uil-book-open"></i></span>
-                        <h3>Courses</h3>
-                    </a>
-                 
-                    <a class="menu-item" href="#">
-                        <span><i class="uil uil-file-alt"></i></span>
-                        <h3>Resources</h3>
-                    </a>
-                    <a class="menu-item" href="info.html">
-                        <span><i class="uil uil-user"></i></span>
-                        <h3>My Profile</h3>
-                    </a>
-                  
-                    <a class="menu-item" href="#">
-                        <span><i class="uil uil-question-circle"></i></span>
-                        <h3>Help & Support</h3>
-                    </a>
-                </div>
-
-                <!-- Academic Section -->
-               
+         <!-- LEFT Sidebar -->
+    <div class="left">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <a class="menu-item" href="index.html">
+                    <span><i class="uil uil-home"></i></span>
+                    <h3>Home</h3>
+                </a>
+                <a class="menu-item" href="Explore.html">
+                    <span><i class="uil uil-compass"></i></span>
+                    <h3>Explore</h3>
+                </a>
+                <a class="menu-item" href="courses.html">
+                    <span><i class="uil uil-book-open"></i></span>
+                    <h3>Courses</h3>
+                </a>
+                <a class="menu-item" href="info.html">
+                    <span><i class="uil uil-user"></i></span>
+                    <h3>My Profile</h3>
+                </a>
+                <a class="menu-item" href="support.html">
+                    <span><i class="uil uil-question-circle"></i></span>
+                    <h3>Help & Support</h3>
+                </a>
             </div>
-            <!----------------- END OF SIDEBAR -------------444444------>
-
-
         </div>
+        <button class="btn-logout" onclick="handleLogout()">
+            <i class="uil uil-signout"></i>
+            <span>Logout</span>
+        </button>
+    </div>
 
         <!----------------- MIDDLE (Main Content) -------------------->
         <div class="middle">
@@ -146,6 +135,15 @@
     </div>
 </div>
 
+<script>
+  function handleLogout() {
+    // حذف بيانات الجلسة
+    sessionStorage.clear();
+    localStorage.clear(); // في حال كنت تستخدم localStorage أيضًا
 
+    // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+    window.location.href = "login.html";
+  }
+</script>
 </body>
 </html>

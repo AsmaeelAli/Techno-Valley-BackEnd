@@ -1,6 +1,9 @@
 package com.techno.valley.project2.feature.post.usecase
 
 import com.mxninja.snowflake.Snowflake
+import com.techno.valley.project2.common.exceptions.RestExceptions
+import com.techno.valley.project2.config.BannedWords
+import com.techno.valley.project2.config.security.config.FileScannerService
 import com.techno.valley.project2.config.security.model.UsersAuthentication
 import com.techno.valley.project2.feature.hashtags.data.PostHashtagRepo
 import com.techno.valley.project2.feature.hashtags.model.entity.PostHashtagEntity
@@ -10,21 +13,26 @@ import com.techno.valley.project2.feature.post.model.dto.PostResponse
 import com.techno.valley.project2.feature.post.model.entity.PostEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import java.io.File
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Service
 class CreatePostService(
     private val postRepository: PostRepository,
-    private val postHashtagRepository: PostHashtagRepo, // إضافة Repository للهاشتاقات
+    private val postHashtagRepository: PostHashtagRepo,
     private val fileStorageService: FileStorageService,
-    private val snowflake: Snowflake
+    private val fileScannerService: FileScannerService,
+    private val snowflake: Snowflake,
+    private val bannedWords: BannedWords,
 ) {
 
     companion object {
         private val SUPPORTED_IMAGE_EXTENSIONS = listOf(".png", ".jpg", ".jpeg")
-        private val SUPPORTED_DOC_EXTENSIONS = listOf(".pdf", ".docx")
-        private const val MAX_FILE_SIZE_MB = 10
+        private val SUPPORTED_DOC_EXTENSIONS = listOf(
+            ".pdf", ".docx", ".xlsx", ".pptx", ".txt", ".zip", ".rar"
+        )
+        private const val MAX_FILE_SIZE_MB = 100
     }
 
     operator fun invoke(
@@ -35,30 +43,45 @@ class CreatePostService(
 
         var uploadedFilePath = ""
 
-        // تحقق من وجود ملف
         if (file != null) {
-            val originalFilename = file.originalFilename ?: throw IllegalArgumentException("file does not have original filename")
-            val lowercaseFilename = originalFilename.lowercase()
-
-            val isDocument = SUPPORTED_DOC_EXTENSIONS.any { lowercaseFilename.endsWith(it) }
-            val isImage = SUPPORTED_IMAGE_EXTENSIONS.any { lowercaseFilename.endsWith(it) }
-
-            if (!isDocument && !isImage) {
-                throw IllegalArgumentException("file does not sported")
+            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+                throw RestExceptions.Forbidden("The file size exceeds the maximum limit")
             }
 
-            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-                throw IllegalArgumentException("The file size exceeds the allowed limit of (${MAX_FILE_SIZE_MB}MB).")
+            val cleanFile: File = fileScannerService.scanFile(file, auth)
+                ?: throw RestExceptions.Forbidden("You want to play? Let's play")
+
+            val filename = cleanFile.name.lowercase()
+            val isDocument = SUPPORTED_DOC_EXTENSIONS.any { filename.endsWith(it) }
+            val isImage = SUPPORTED_IMAGE_EXTENSIONS.any { filename.endsWith(it) }
+
+            if (!isDocument && !isImage) {
+                cleanFile.delete()
+                throw RestExceptions.Forbidden("You want to play? Let's play")
             }
 
             try {
-                uploadedFilePath = fileStorageService.store(file)
+                uploadedFilePath = fileStorageService.store(cleanFile)
             } catch (ex: Exception) {
-                throw RuntimeException("An error occurred while saving the file: ${ex.message}")
+                cleanFile.delete()
+                throw RuntimeException("An error occurred while saving the file: \${ex.message}")
             }
+
+            cleanFile.delete()
         }
 
-        // إنشاء البوست
+        val contentLower = request.content.trim().lowercase()
+        val hashtagLower = request.hashtag.trim().lowercase()
+        val allInput = "$contentLower $hashtagLower"
+
+        val matchedBanned = bannedWords.words.firstOrNull { word ->
+            allInput.contains(word)
+        }
+
+        if (matchedBanned != null) {
+            throw RestExceptions.Forbidden("Banned word used")
+        }
+
         val lowercasePath = uploadedFilePath.lowercase()
         val isDocumentPath = SUPPORTED_DOC_EXTENSIONS.any { lowercasePath.endsWith(it) }
         val isImagePath = SUPPORTED_IMAGE_EXTENSIONS.any { lowercasePath.endsWith(it) }
@@ -75,16 +98,13 @@ class CreatePostService(
 
         postRepository.save(post)
 
-        // تخزين الهاشتاق في جدول post_hashtags (واحد فقط)
-        val hashtag = request.hashtag.trim().lowercase().removePrefix("#")
+        val hashtag = hashtagLower.removePrefix("#")
         if (hashtag.isNotBlank()) {
             val postHashtag = PostHashtagEntity(
                 id = snowflake.nextId(),
                 postId = post.id,
                 tag = hashtag,
             )
-
-            // حفظ الهاشتاق
             postHashtagRepository.save(postHashtag)
         }
 

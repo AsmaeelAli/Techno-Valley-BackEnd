@@ -15,7 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.GenericFilterBean
-import java.util.Date
+import java.util.*
 
 @Component
 @Priority(0)
@@ -30,16 +30,10 @@ class UsersBasicFilter(
 
         println("Requested path: $path")
 
-        val remoteAddr = request.remoteAddr
-        if (remoteAddr == "192.168.129.235" ||
-            remoteAddr == "192.168.1.103:8080" ||
-            remoteAddr == "192.168.1.103" ||
-            path.startsWith("/swagger-ui") ||
-            path.startsWith("/v3/api-docs") ||
-            path.startsWith("/swagger-resources") ||
+        if (
             path.startsWith("/api/auth/login") ||
             path.startsWith("/api/email/request") ||
-            path.startsWith("/api/email/verify")||
+            path.startsWith("/api/email/verify") ||
             path.startsWith("/api/email/resend")
         ) {
             filterChain.doFilter(request, response)

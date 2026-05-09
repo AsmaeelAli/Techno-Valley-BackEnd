@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>عرض أيقونات Unicons من CDN</title>
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f9f9f9;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+    gap: 20px;
+  }
+  .icon-box {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+  }
+  .icon-box:hover {
+    background-color: #e0f0ff;
+  }
+  .icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  .icon-name {
+    font-size: 13px;
+    color: #555;
+    word-break: break-word;
+  }
+  #selectedIcon {
+    margin-top: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #007acc;
+  }
+</style>
+</head>
+<body>
+
+<h1>مجموعة أيقونات Unicons</h1>
+
+<div class="icon-grid" id="iconGrid"></div>
+
+<div id="selectedIcon">اضغط على أيقونة لاختيارها</div>
+
+<script>
+// قائمة بأسماء أيقونات Unicons من CDN (مقتطفة من توثيق المكتبة، يمكنك تعديلها أو تكملها حسب الحاجة)
+const iconNames = [
+  "uil-adjust-alt", "uil-airplay", "uil-alarm-clock", "uil-analytics", "uil-anchor",
+  "uil-archive-alt", "uil-arrow-down", "uil-arrow-left", "uil-arrow-right", "uil-arrow-up",
+  "uil-at", "uil-bag", "uil-bell", "uil-bookmark", "uil-calculator",
+  "uil-camera", "uil-chat", "uil-check-circle", "uil-cloud-upload", "uil-comment",
+  "uil-compass", "uil-copy", "uil-crop-alt", "uil-desktop", "uil-discord",
+  "uil-download-alt", "uil-edit", "uil-envelope", "uil-exclamation-circle", "uil-eye",
+  "uil-facebook-f", "uil-file-check", "uil-file-download", "uil-file-exclamation", "uil-filter",
+  "uil-fire", "uil-flag", "uil-folder", "uil-github", "uil-globe",
+  "uil-graduation-cap", "uil-heart", "uil-home", "uil-image", "uil-info-circle",
+  "uil-instagram", "uil-keyhole-circle", "uil-link", "uil-lock", "uil-map-marker",
+  "uil-menu", "uil-moon", "uil-music", "uil-palette", "uil-paperclip",
+  "uil-phone", "uil-play-circle", "uil-plus-circle", "uil-power", "uil-question-circle",
+  "uil-quote-left", "uil-recycle", "uil-refresh", "uil-search", "uil-server",
+  "uil-setting", "uil-share-alt", "uil-shield-check", "uil-shopping-cart", "uil-sign-out-alt",
+  "uil-smile", "uil-star", "uil-sync", "uil-tag", "uil-thumbs-up",
+  "uil-trash-alt", "uil-twitter", "uil-unlock", "uil-upload", "uil-user",
+  "uil-video", "uil-wallet", "uil-wifi", "uil-youtube"
+  // ممكن تضيف باقي الأيقونات من التوثيق الرسمي أو حسب حاجتك
+];
+
+// توليد عرض الأيقونات في الصفحة
+const container = document.getElementById('iconGrid');
+
+iconNames.forEach(iconName => {
+  const box = document.createElement('div');
+  box.classList.add('icon-box');
+  box.title = iconName;
+
+  const icon = document.createElement('i');
+  icon.className = iconName + ' icon';
+
+  const label = document.createElement('div');
+  label.className = 'icon-name';
+  label.textContent = iconName;
+
+  box.appendChild(icon);
+  box.appendChild(label);
+
+  box.addEventListener('click', () => {
+    document.getElementById('selectedIcon').textContent = `تم اختيار الأيقونة: ${iconName}`;
+  });
+
+  container.appendChild(box);
+});
+</script>
+
+</body>
+</html>
+
+<!-- 
+ Upload Image Button
+
+ 
+                <div class="upload-image">
+                    <label for="upload-image-input">
+                        <i class="uil uil-camera"></i>
+                    </label>
+                    <input type="file" id="upload-image-input" style="display:none;" onchange="previewImage(event)">
+                    <p>Upload Image</p>
+                </div>
+
+-->

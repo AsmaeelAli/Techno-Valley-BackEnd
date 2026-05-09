@@ -4,7 +4,7 @@ import com.mxninja.snowflake.Snowflake
 import com.techno.valley.project2.feature.hashtags.data.PostHashtagRepo
 import com.techno.valley.project2.feature.hashtags.model.entity.PostHashtagEntity
 import org.springframework.stereotype.Service
-import java.util.UUID
+import java.util.*
 
 @Service
 class SaveHashtagsService(

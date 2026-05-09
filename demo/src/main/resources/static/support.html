@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>Techno Valley</title>
+        <!-- IconScout CDN -->
+        <link href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css" rel="stylesheet">
+        <!-- Stylesheet -->
+        <link href="./sidebar.css" rel="stylesheet">
+        <script src="sidebar.js"></script>
+        <link rel="icon" type="image/jpg" href="images/WP_3.png">
+    </head>
+    <!-- Stylesheet -->
+    <style>
+     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --primary-color-hue: 252;
+    --dark-color-lightness: 17%;
+    --light-color-lightness: 95%;
+    --white-color-lightness: 100%;
+    --color-white: hsl(252, 30%, var(--white-color-lightness));
+    --color-light: hsl(252, 30%, var(--light-color-lightness));
+    --color-grey: hsl(252, 15%, 65%);
+    --color-primary: hsl(var(--primary-color-hue), 75%, 60%);
+    --color-secondary: hsl(252, 100%, 90%);
+    --color-success: hsl(120, 95%, 65%);
+    --color-danger: hsl(0, 95%, 65%);
+    --color-dark: hsl(252, 30%, var(--dark-color-lightness));
+    --color-black: hsl(252, 30%, 10%);
+    --border-radius: 2rem;
+    --card-border-radius: 1rem;
+    --btn-padding: 0.6rem 2rem;
+    --search-padding: 0.6rem 1rem;
+    --card-padding: 1rem;
+    --sticky-top-left: 5.4rem;
+    --sticky-top-right: -18rem;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    border: none;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--color-dark);
+    background: var(--color-light);
+    overflow-x: hidden;
+}
+
+/* =============== General Style ============== */
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Search Bar */
+nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-bar {
+    background: var(--color-light);
+    border-radius: var(--border-radius);
+    padding: var(--search-padding);
+}
+
+.search-bar input[type="search"] {
+    background: transparent;
+    width: 50vw;
+    margin-left: 1rem;
+    font-size: 0.9rem;
+}
+
+.search-bar button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+}
+
+.btn {
+    display: inline-block;
+    padding: var(--btn-padding);
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 300ms ease;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: var(--color-white);
+    width: auto;
+}
+
+.text-bold {
+    font-weight: 500;
+}
+
+.text-muted {
+    color: var(--color-grey);
+}
+
+/* =============== Navbar ============== */
+nav {
+    width: 100%;
+    background: var(--color-white);
+    padding: 0.7rem 0;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+}
+
+nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav .search-bar input[type="search"]::placeholder {
+    color: var(--color-grey);
+}
+
+/* =============== Main ============== */
+main {
+    position: relative;
+    top: 5.4rem;
+}
+
+main .container {
+    display: grid;
+    grid-template-columns: 18vw auto  20vw;
+    column-gap: 2rem;
+    position: relative;
+}
+
+
+
+/* =============== Feeds ============== */
+.middle .feeds .feed {
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.middle .feed .head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.middle .feed .user {
+    display: flex;
+    gap: 1rem;
+}
+
+.middle .feed .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+    margin: 0.6rem 0;
+}
+
+.profile-page .middle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.profile-page .info-card {
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    display: inline-block;
+    width: 400px;
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+.profile-page .info h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    color: #222;
+    text-align: center;
+}
+
+.profile-page .info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+    color: #444;
+}
+
+.profile-page .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.profile-page .action-btn {
+    background-color: var(--color-primary);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.profile-page .action-btn:hover {
+    background-color: #005fa3;
+}
+
+/* Experience Section */
+.experience-section {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 270px;
+}
+
+.experience-card {
+    background: var(--color-white);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#experience-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#experience-form input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+#experience-form button {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+}
+
+#experience-form button:hover {
+    background: #0056b3;
+}
+
+#experience-list li {
+    background: #f1f1f1;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+@media screen and (max-width: 1200px) {
+    .container {
+        width: 96%;
+    }
+    main .container {
+        grid-template-columns: 5rem 1fr;
+        gap: 1rem;
+    }
+    .left {
+        width: 5rem;
+        z-index: 5;
+    }
+    main .container .left .profile {
+        display: none;
+    }
+    .sidebar h3 {
+        display: none;
+    }
+    .left .btn {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    nav .search-bar {
+        display: none;
+    }
+    main .container {
+        grid-template-columns: 1fr;
+    }
+    main .container .left,
+    main .container .right {
+        display: none;
+    }
+} 
+
+.logo {  
+    width: 160px;}
+
+.help-section {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 2rem;
+}
+
+.help-section h2 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.help-section ul {
+    margin-top: 1rem;
+    padding-left: 1rem;
+}
+
+.help-section li {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.help-section i {
+    color: var(--color-primary);
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+    </style>
+
+
+<body class="profile-page">
+    <script>
+        // Simulated API response
+        const helpData = [
+            {
+                icon: "uil-question-circle",
+                title: "FAQ",
+                description: "Frequently Asked Questions",
+                link: "#"
+            },
+            {
+                icon: "uil-chat",
+                title: "Live Chat",
+                description: "Chat with our support team",
+                link: "#"
+            },
+            {
+                icon: "uil-book-open",
+                title: "User Guide",
+                description: "Learn how to use the platform",
+                link: "#"
+            },
+            {
+                icon: "uil-envelope",
+                title: "Email",
+                description: "support@technovalley.com",
+                link: "mailto:support@technovalley.com"
+            },
+            {
+                icon: "uil-users-alt",
+                title: "Community Forum",
+                description: "Join discussions with others",
+                link: "#"
+            },
+            {
+                icon: "uil-bug",
+                title: "Report a Bug",
+                description: "Tell us about an issue",
+                link: "#"
+            }
+        ];
+    
+        // Render help section
+        function renderHelpSection(data) {
+            const container = document.getElementById("helpSection");
+            let html = `<h2>Help & Support</h2><ul>`;
+            data.forEach(item => {
+                html += `
+                    <li style="margin-bottom: 1rem;">
+                        <i class="uil ${item.icon}" style="color: var(--color-primary); margin-right: 0.5rem;"></i>
+                        <strong>${item.title}:</strong> <a href="${item.link}">${item.description}</a>
+                    </li>
+                `;
+            });
+            html += `</ul><p class="text-muted">We’re always here to help you grow and succeed!</p>`;
+            container.innerHTML = html;
+        }
+    
+        // Simulate API call
+        setTimeout(() => {
+            renderHelpSection(helpData);
+        }, 500); // simulate delay
+    </script>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <img src="images/noBgColorcc.png" alt="Logo" class="logo">
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+ <!-- LEFT Sidebar -->
+    <div class="left">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <a class="menu-item" href="index.html">
+                    <span><i class="uil uil-home"></i></span>
+                    <h3>Home</h3>
+                </a>
+                <a class="menu-item" href="Explore.html">
+                    <span><i class="uil uil-compass"></i></span>
+                    <h3>Explore</h3>
+                </a>
+                <a class="menu-item" href="courses.html">
+                    <span><i class="uil uil-book-open"></i></span>
+                    <h3>Courses</h3>
+                </a>
+                <a class="menu-item" href="info.html">
+                    <span><i class="uil uil-user"></i></span>
+                    <h3>My Profile</h3>
+                </a>
+                <a class="menu-item" href="support.html">
+                    <span><i class="uil uil-question-circle"></i></span>
+                    <h3>Help & Support</h3>
+                </a>
+            </div>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">
+            <i class="uil uil-signout"></i>
+            <span>Logout</span>
+        </button>
+    </div>
+
+            <!-- MIDDLE (Main Content) -->
+            <div class="middle">
+                <div class="help-section card">
+                    <div class="help-section card" id="helpSection">
+                        <h2>Help & Support</h2>
+                        
+                    
+                    
+                    <ul>
+                        <li><i class="uil uil-question-circle"></i> <strong>FAQ:</strong> <a href="#">Frequently Asked Questions</a></li>
+                        <li><i class="uil uil-chat"></i> <strong>Live Chat:</strong> Chat with our support team.</li>
+                        <li><i class="uil uil-book-open"></i> <strong>User Guide:</strong> <a href="#">Learn how to use the platform</a>.</li>
+                        <li><i class="uil uil-envelope"></i> <strong>Email:</strong> <a href="mailto:support@technovalley.com">support@technovalley.com</a></li>
+                        <li><i class="uil uil-users-alt"></i> <strong>Community Forum:</strong> <a href="#">Join discussions with others</a></li>
+                        <li><i class="uil uil-bug"></i> <strong>Report a Bug:</strong> <a href="#">Tell us about an issue</a></li>
+                    </ul>
+                    <p class="text-muted">We’re always here to help you grow and succeed!</p>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+<script>
+  function handleLogout() {
+    // حذف بيانات الجلسة
+    sessionStorage.clear();
+    localStorage.clear(); // في حال كنت تستخدم localStorage أيضًا
+
+    // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+    window.location.href = "login.html";
+  }
+</script>
+</body>
+</html>

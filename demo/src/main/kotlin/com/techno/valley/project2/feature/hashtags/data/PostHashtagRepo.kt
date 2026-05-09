@@ -11,5 +11,5 @@ interface PostHashtagRepo : JpaRepository<PostHashtagEntity, ID> {
 
     fun findByTagStartingWithIgnoreCase(tag: String): List<PostHashtagEntity>
 
-    fun findAllByPostId(postId: UUID): List<PostHashtagEntity>
+    fun findByPostId(id: UUID): PostHashtagEntity
 }
