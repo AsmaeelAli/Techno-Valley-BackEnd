@@ -107,16 +107,12 @@ feature/
 * **Model** → Defines domain entities and DTOs  
 * **Data** → Handles database operations
 
----
-
 ### 3. Security Architecture
 * **JWT-based authentication** using custom security filter
 * **Public/private key mechanism** for token signing and verification
 * **Security context populated** after successful token validation
 * **Role-based access control** using `@PreAuthorize` annotations
 * **Stateless authentication** with no server-side sessions
-
----
 
 ### 4. Request Flow
 
@@ -128,13 +124,9 @@ JWT Security Filter
 
 *Every request is intercepted by the security filter before reaching business logic to ensure authentication and authorization.*
 
----
-
 ### 5. Database Layer
 * **Database schema versioning** managed using Flyway migrations (`db/migration`)
 * **Controlled evolution** of database structure through versioned scripts
-
----
 
 ### 6. SOLID Principles
 The system partially applies SOLID principles to improve code quality and maintainability:
@@ -142,8 +134,6 @@ The system partially applies SOLID principles to improve code quality and mainta
 * **Dependency Inversion Principle (DIP)**: Implemented using Spring Dependency Injection
 * **Open/Closed Principle (OCP)**: System is designed to allow extension without modifying existing logic
 * **Interface Segregation & Liskov Substitution**: Applied partially depending on module design
-
----
 
 ### 7. Design Goals
 * High modularity through feature-based architecture
@@ -157,8 +147,6 @@ The system partially applies SOLID principles to improve code quality and mainta
 
 The system provides a unified search feature that allows users to discover both academic content and experts within the platform using a single query interface.
 
----
-
 ### 1. Overview
 The search system combines two main data sources:
 * Posts based on hashtags
@@ -166,15 +154,11 @@ The search system combines two main data sources:
 
 > This allows users to perform both content discovery and expert discovery in one request.
 
----
-
 ### 2. Functionality
 * Search posts using hashtag prefix matching (case-insensitive)
 * Search experts based on experience text matching
 * Return grouped results in a structured response
 * Normalize user queries for consistent matching
-
----
 
 ### 3. Search Output Structure
 Results are grouped into two categories:
@@ -183,28 +167,20 @@ Results are grouped into two categories:
 
 *Each result includes only essential information to keep responses lightweight and relevant.*
 
----
-
 ### 4. Technical Approach
 * **Hashtag search** uses prefix-based matching for fast filtering
 * **Expert search** uses case-insensitive text matching on experience field
 * **Data is aggregated** from multiple repositories into a unified response
 * **Results are returned** in a grouped DTO format for frontend simplicity
 
----
-
 ### 5. Design Goal
 The goal of the system is to provide a simple and efficient way to connect users with relevant academic content and people without introducing complex search overhead.
 
 ---
 
-
-
 ## 📮 Posts System
 
 The Posts System is the core feature of the platform, allowing users to create and share academic content in a controlled and secure environment.
-
----
 
 ### 1. Overview
 Users can create posts containing:
@@ -214,16 +190,12 @@ Users can create posts containing:
 
 *Each post is linked to its creator and stored with metadata such as creation time and status.*
 
----
-
 ### 2. Core Features
 * **Create academic posts** with optional file upload
 * **Attach a single file** per post
 * **Categorize posts** using hashtags
 * **Retrieve all posts** or user-related interactions
 * **Support for likes** and favorites system
-
----
 
 ### 3. File Handling Process
 File upload is handled through a secure multi-step pipeline:
@@ -236,15 +208,11 @@ File upload is handled through a secure multi-step pipeline:
 
 *Only files that pass all validation steps are stored permanently.*
 
----
-
 ### 4. Security & Content Validation
 Before saving a post, the system performs:
 * **Banned words filtering** on both content and hashtags
 * **File integrity validation** before storage
 * **Rejection** of any suspicious or invalid upload attempts
-
----
 
 ### 5. Logging & Security Monitoring
 The system records suspicious activities such as:
@@ -254,8 +222,6 @@ The system records suspicious activities such as:
 * File scanning failures
 
 *These logs include user information and timestamps, providing traceability for security monitoring.*
-
----
 
 ### 6. Design Notes
 * Each post supports **only one attached file** for simplicity
@@ -268,8 +234,6 @@ The system records suspicious activities such as:
 ## 🛠️ Challenges and Engineering Decisions
 
 During the development of the system, several key engineering challenges were encountered, mainly related to performance, search design, and system organization.
-
----
 
 ### 1. Posts System Complexity
 The main challenge was designing a secure and reliable post creation system that supports file uploads while maintaining system stability.
@@ -284,8 +248,6 @@ The process was designed as a multi-stage pipeline:
 
 *Instead of increasing system complexity with advanced frameworks, a simple approach was used based on logs and flags to track issues and system behavior.*
 
----
-
 ### 2. Hybrid Search Design
 One of the more challenging parts of the system was designing a hybrid search feature capable of returning two different types of results within a single response:
 * Posts based on hashtags
@@ -294,8 +256,6 @@ One of the more challenging parts of the system was designing a hybrid search fe
 The challenge was not only in implementing the queries, but in designing a unified response structure that can combine heterogeneous data in a meaningful way.
 
 *This required balancing clarity in the API response while keeping database queries efficient and lightweight.*
-
----
 
 ### 3. Database Efficiency and Query Optimization
 A key goal during development was minimizing database load and avoiding unnecessary queries.
@@ -308,8 +268,6 @@ To achieve this:
 
 *The focus was on reducing database pressure while maintaining acceptable response speed for search and retrieval operations.*
 
----
-
 ### 4. Code Organization and Maintainability
 As the system grew, maintaining clear structure became a challenge.
 
@@ -320,8 +278,6 @@ The solution was to enforce a strict separation of concerns:
 * **Dedicated services** for security, scanning, and storage
 
 *This structure helped reduce confusion and improved long-term maintainability.*
-
----
 
 ### 5. Frontend Data Handling (Supporting Layer)
 Although the project is backend-focused, some client-side utilities were implemented to improve performance:
