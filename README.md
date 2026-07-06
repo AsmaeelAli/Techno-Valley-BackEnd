@@ -111,12 +111,14 @@ This structure ensures clear responsibility separation and reduces coupling betw
 
 The system follows a feature-oriented modular design, where each feature is self-contained and includes its own internal structure:
 
+```bash
 feature/
 ├── controller
 ├── usecase
 ├── model
 ├── data
-└── config (if required)
+└── config
+```
 
 Each feature is isolated to ensure high modularity, scalability, and easier maintenance.
 
@@ -141,9 +143,11 @@ Example: Post Module Structure
 
 ### 4. Request Flow
 
+```bash
 Client → Controller → UseCase → Data Layer → Database
 ↑
 JWT Security Filter
+```
 
 Every request is intercepted by the security filter before reaching business logic to ensure authentication and authorization.
 
